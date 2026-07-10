@@ -1,7 +1,7 @@
 import { updateBadges } from './lib/badges';
 import { applyFilters, increaseVisibleLimit, initSearchPage, resetVisibleLimit } from './lib/catalogFilters';
 import { renderFavorites, toggleFavorite } from './lib/favorites';
-import { initChat, initGallery, initMobileMenu, initSearchSuggestions } from './lib/ui';
+import { initCarousels, initChat, initGallery, initMobileMenu, initSearchSuggestions } from './lib/ui';
 
 document.addEventListener('click', (event) => {
   const favButton = event.target.closest('.favorite-toggle');
@@ -23,6 +23,7 @@ document.addEventListener('store:change', updateBadges);
 initMobileMenu();
 initChat();
 initGallery();
+initCarousels();
 initSearchSuggestions();
 updateBadges();
 renderFavorites();

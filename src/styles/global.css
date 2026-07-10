@@ -123,6 +123,26 @@ textarea {
   overflow: hidden;
 }
 
+.product-carousel {
+  scrollbar-color: rgb(var(--color-brand)) rgb(var(--color-line) / 0.55);
+  scrollbar-width: thin;
+  scroll-padding-inline: 1rem;
+}
+
+.product-carousel::-webkit-scrollbar {
+  height: 10px;
+}
+
+.product-carousel::-webkit-scrollbar-track {
+  background: rgb(var(--color-line) / 0.55);
+  border-radius: 999px;
+}
+
+.product-carousel::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, rgb(var(--color-brand)), rgb(var(--color-accent)));
+  border-radius: 999px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

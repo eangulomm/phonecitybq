@@ -1,0 +1,41 @@
+---
+import ProductCard from './ProductCard.astro';
+import { getSiteConfig } from '../../services/siteConfig';
+
+const { products, emptyText = 'No hay productos disponibles por ahora.', whatsapp, carouselId } = Astro.props;
+const config = whatsapp ? null : await getSiteConfig();
+const whatsappNumber = whatsapp || config.whatsapp;
+---
+
+<div class="relative" data-product-carousel>
+  {
+    products.length > 0 ? (
+      <>
+        <div
+          id={carouselId}
+          class="product-carousel -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 sm:-mx-6 sm:gap-5 sm:px-6"
+          data-carousel-track
+          tabindex="0"
+          aria-label="Productos destacados"
+        >
+          {products.map((product) => (
+            <div class="w-[min(82vw,330px)] shrink-0 snap-start sm:w-[320px] lg:w-[280px]">
+              <ProductCard product={product} whatsapp={whatsappNumber} />
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-2 hidden justify-end gap-2 md:flex">
+          <button class="btn-secondary h-11 w-11 p-0" type="button" data-carousel-prev aria-controls={carouselId} aria-label="Ver productos anteriores">
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <button class="btn-primary h-11 w-11 p-0" type="button" data-carousel-next aria-controls={carouselId} aria-label="Ver mas productos">
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </>
+    ) : (
+      <p class="rounded-2xl border border-dashed border-line p-8 text-center text-muted">{emptyText}</p>
+    )
+  }
+</div>

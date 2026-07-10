@@ -45,6 +45,22 @@ export function initGallery() {
   });
 }
 
+export function initCarousels() {
+  document.querySelectorAll('[data-product-carousel]').forEach((carousel) => {
+    const track = carousel.querySelector('[data-carousel-track]');
+    if (!track) return;
+
+    const scrollByCard = (direction) => {
+      const card = track.querySelector('.snap-start');
+      const cardWidth = card?.getBoundingClientRect().width || Math.min(340, track.clientWidth * 0.9);
+      track.scrollBy({ left: direction * (cardWidth + 20), behavior: 'smooth' });
+    };
+
+    carousel.querySelector('[data-carousel-prev]')?.addEventListener('click', () => scrollByCard(-1));
+    carousel.querySelector('[data-carousel-next]')?.addEventListener('click', () => scrollByCard(1));
+  });
+}
+
 export function initSearchSuggestions() {
   document.querySelectorAll('[data-search-suggest]').forEach((form) => {
     const input = form.querySelector('[data-search-input]');
