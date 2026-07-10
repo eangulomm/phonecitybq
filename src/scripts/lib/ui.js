@@ -1,4 +1,4 @@
-const CHAT_CLOSED_KEY = 'premium_chat_closed';
+const CHAT_CLOSED_KEY = 'phonecity_chat_closed_v2';
 const BASE_PATH = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const money = new Intl.NumberFormat('es-CO', {
   style: 'currency',
