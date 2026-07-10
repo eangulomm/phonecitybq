@@ -2,27 +2,29 @@ import { products } from '../data/products';
 import { fetchFromAppsScript } from './apiClient';
 import { normalizeProduct, normalizeSlug } from './mappers';
 
-export async function getProducts() {
+async function loadProducts() {
   const remoteProducts = await fetchFromAppsScript('products');
-  return (remoteProducts?.data || remoteProducts || products).map(normalizeProduct);
+  const productList = remoteProducts?.data || remoteProducts;
+
+  if (Array.isArray(productList) && productList.length > 0) {
+    return productList.map(normalizeProduct);
+  }
+
+  return products.map(normalizeProduct);
+}
+
+export async function getProducts() {
+  return loadProducts();
 }
 
 export async function getAllProductPaths() {
-  const productMap = new Map();
-  products.map(normalizeProduct).forEach((product) => productMap.set(product.slug, product));
-
-  const remoteProducts = await fetchFromAppsScript('products');
-  (remoteProducts?.data || remoteProducts || [])
-    .map(normalizeProduct)
-    .forEach((product) => productMap.set(product.slug, product));
-
-  return Array.from(productMap.values());
+  return loadProducts();
 }
 
 export async function getProductBySlug(slug) {
   const productList = await getProducts();
   const normalizedSlug = normalizeSlug(slug);
-  return productList.find((product) => product.slug === normalizedSlug) || products.map(normalizeProduct).find((product) => product.slug === normalizedSlug);
+  return productList.find((product) => product.slug === normalizedSlug);
 }
 
 export async function getProductsByCategory(category) {

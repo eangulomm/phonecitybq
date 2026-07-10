@@ -27,6 +27,8 @@ PUBLIC_APPS_SCRIPT_API_URL=https://script.google.com/macros/s/TU_DEPLOYMENT_ID/e
 
 El endpoint debe responder a `?resource=products`, `?resource=categories` y `?resource=siteConfig`, devolviendo un arreglo directo o `{ "data": [...] }`.
 
+En GitHub Pages, el workflow reconstruye la web con Apps Script en cada push y cada 30 minutos para traer productos e imagenes nuevas desde Google Sheets.
+
 ## Estructura esperada de producto
 
 ```js

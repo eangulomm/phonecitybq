@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"
 
 permissions:
   contents: read
@@ -17,6 +19,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_DATA_SOURCE: remote
+      PUBLIC_APPS_SCRIPT_API_URL: https://script.google.com/macros/s/AKfycbyE6mxPNO8EnXsYW5KDSSx4v5Twy1_wlfRQw2KJ0i__mU9J4ZDLac3YCQeQp9s8I35f/exec
     steps:
       - name: Checkout
         uses: actions/checkout@v4
