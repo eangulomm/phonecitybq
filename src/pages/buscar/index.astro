@@ -9,10 +9,10 @@ import { sitePath } from '../../utils/format';
 const products = (await getProducts()).filter(isIphoneProduct);
 ---
 
-<BaseLayout title="Buscar iPhone" description="Busca iPhone por modelo, capacidad o condicion.">
+<BaseLayout title="Buscar iPhone" description="Busca iPhone por modelo, capacidad o condición." robots="noindex,follow">
   <section class="section">
     <div class="container" data-search-page>
-      <PageIntro eyebrow="Busqueda" title="Buscar iPhone" description="Encuentra modelos disponibles por nombre, capacidad o condicion." />
+      <PageIntro eyebrow="Búsqueda" title="Buscar iPhone" description="Encuentra modelos disponibles por nombre, capacidad o condición." />
       <form class="mt-8 flex max-w-2xl gap-3" action={sitePath('/buscar')}>
         <label class="sr-only" for="search-page-input">Buscar productos</label>
         <input id="search-page-input" class="min-h-12 flex-1 rounded-full border border-line bg-surface px-5 outline-none" name="q" data-search-page-input placeholder="Buscar por producto o marca" />

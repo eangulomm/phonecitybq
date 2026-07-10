@@ -24,7 +24,7 @@ const searchProducts = products.map((product) => ({
       <span class="hidden text-lg tracking-wide sm:block">{config.logoText}</span>
     </a>
 
-    <nav class="hidden items-center gap-7 text-sm font-bold text-muted lg:flex" aria-label="Menu principal">
+    <nav class="hidden items-center gap-7 text-sm font-bold text-muted lg:flex" aria-label="Menú principal">
       {config.nav.map((item) => <a class="transition hover:text-ink" href={sitePath(item.href)}>{item.label}</a>)}
     </nav>
 
@@ -51,7 +51,7 @@ const searchProducts = products.map((product) => ({
         ></div>
       </form>
 
-      <button class="mobile-menu-toggle btn-secondary h-11 w-11 p-0 lg:hidden" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
+      <button class="mobile-menu-toggle btn-secondary h-11 w-11 p-0 lg:hidden" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
         <i class="fa-solid fa-bars" aria-hidden="true"></i>
       </button>
     </div>

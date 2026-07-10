@@ -68,7 +68,7 @@ export function initSearchPage() {
   if (summary) {
     summary.textContent = query
       ? `${visibleCount} resultado${visibleCount === 1 ? '' : 's'} encontrado${visibleCount === 1 ? '' : 's'}.`
-      : 'Escribe una referencia para filtrar el catalogo.';
+      : 'Escribe una referencia para filtrar el catálogo.';
   }
   page.querySelector('[data-empty-products]')?.classList.toggle('hidden', visibleCount > 0);
 }

@@ -8,13 +8,13 @@ const { config } = Astro.props;
   <div class="container grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
     <div class="rounded-[var(--radius-lg)] bg-ink p-8 text-paper sm:p-10">
       <p class="eyebrow text-accent">Pagos y entrega</p>
-      <h2 class="mt-3 max-w-2xl text-3xl font-black sm:text-4xl">Compra tu iPhone con atencion clara desde el primer mensaje</h2>
+      <h2 class="mt-3 max-w-2xl text-3xl font-black sm:text-4xl">Compra tu iPhone con atención clara desde el primer mensaje</h2>
       <div class="mt-8 flex flex-wrap gap-3">
         {config.paymentMethods.map((method) => <span class="rounded-full border border-white/15 px-4 py-2 text-sm font-bold text-paper/80">{method}</span>)}
       </div>
     </div>
     <div class="surface rounded-[var(--radius-lg)] p-8">
-      <p class="eyebrow">Asesoria activa</p>
+      <p class="eyebrow">Asesoría activa</p>
       <h2 class="mt-3 text-3xl font-black">{config.banners[0].title}</h2>
       <p class="mt-4 leading-7 text-muted">{config.banners[0].text}</p>
       <a href={sitePath(config.banners[0].href)} class="btn-primary mt-6">
@@ -29,8 +29,8 @@ const { config } = Astro.props;
   <div class="container grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
     <div>
       <p class="eyebrow">Clientes</p>
-      <h2 class="mt-3 text-3xl font-black">Asesoria antes de comprar</h2>
-      <p class="mt-4 leading-7 text-muted">Phone City BQ esta pensado para que elijas tu iPhone con informacion clara de modelo, precio y condicion.</p>
+      <h2 class="mt-3 text-3xl font-black">Asesoría antes de comprar</h2>
+      <p class="mt-4 leading-7 text-muted">Phone City BQ está pensado para que elijas tu iPhone con información clara de modelo, precio y condición.</p>
     </div>
     <div class="grid gap-4 md:grid-cols-3">
       {config.testimonials.map((item) => (
@@ -64,8 +64,8 @@ const { config } = Astro.props;
   <div class="container rounded-[var(--radius-lg)] bg-brand p-8 text-white sm:p-10">
     <div class="grid gap-6 lg:grid-cols-[1fr_0.9fr] lg:items-center">
       <div>
-        <h2 class="text-3xl font-black">Quieres comprar un iPhone?</h2>
-        <p class="mt-3 text-white/78">Escríbenos por WhatsApp y te ayudamos a confirmar modelo, capacidad, condicion y disponibilidad.</p>
+        <h2 class="text-3xl font-black">¿Quieres comprar un iPhone?</h2>
+        <p class="mt-3 text-white/78">Escríbenos por WhatsApp y te ayudamos a confirmar modelo, capacidad, condición y disponibilidad.</p>
       </div>
       <a class="inline-flex items-center gap-2 justify-self-start rounded-full bg-white px-6 py-3 font-black text-slate-950 lg:justify-self-end" href={`https://wa.me/${config.whatsapp}`} target="_blank" rel="noreferrer">
         <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>

@@ -39,7 +39,7 @@ const productLd = product
 
 <BaseLayout
   title={product ? product.name : 'Producto no encontrado'}
-  description={product ? product.description || `Detalle de ${product.name}` : 'El producto solicitado no esta disponible.'}
+  description={product ? product.description || `Detalle de ${product.name}` : 'El producto solicitado no está disponible.'}
   image={product?.mainImage || config.hero.image}
   jsonLd={productLd}
   robots={product ? 'index,follow' : 'noindex,follow'}
@@ -81,7 +81,7 @@ const productLd = product
               <dl class="mt-6 grid gap-3 rounded-[var(--radius-md)] border border-line bg-surface p-5 text-sm sm:grid-cols-2">
                 <div><dt class="font-black">Disponibilidad</dt><dd class="text-muted">{product.stock > 0 ? `${product.stock} disponible${product.stock === 1 ? '' : 's'}` : 'Agotado'}</dd></div>
                 <div><dt class="font-black">Tipo</dt><dd class="text-muted">{productType}</dd></div>
-                <div><dt class="font-black">Condicion</dt><dd class="text-muted">{product.condition}</dd></div>
+                <div><dt class="font-black">Condición</dt><dd class="text-muted">{product.condition}</dd></div>
                 <div><dt class="font-black">Marca</dt><dd class="text-muted">Apple</dd></div>
               </dl>
               <div class="mt-6 grid gap-3 sm:grid-cols-2">
@@ -91,19 +91,19 @@ const productLd = product
                 </a>
                 <a class="btn-secondary" href={sitePath('/productos')}>
                   <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-                  Volver al catalogo
+                  Volver al catálogo
                 </a>
               </div>
               <div class="mt-8 grid gap-3">
                 <details class="surface rounded-2xl p-5" open>
-                  <summary class="cursor-pointer font-black">Especificaciones tecnicas</summary>
+                  <summary class="cursor-pointer font-black">Especificaciones técnicas</summary>
                   <div class="mt-4 grid gap-2 text-sm text-muted">
                     {Object.entries(product.specs || {}).map(([key, value]) => <p><strong class="text-ink">{key}:</strong> {value}</p>)}
                   </div>
                 </details>
                 <details class="surface rounded-2xl p-5">
-                  <summary class="cursor-pointer font-black">Pagos y garantia</summary>
-                  <p class="mt-4 leading-7 text-muted">Aceptamos {config.paymentMethods.join(', ')}. La garantia se confirma segun condicion y disponibilidad antes del despacho.</p>
+                  <summary class="cursor-pointer font-black">Pagos y garantía</summary>
+                  <p class="mt-4 leading-7 text-muted">Aceptamos {config.paymentMethods.join(', ')}. La garantía se confirma según condición y disponibilidad antes del despacho.</p>
                 </details>
               </div>
             </article>
@@ -118,9 +118,9 @@ const productLd = product
       <section class="section">
         <div class="container max-w-2xl text-center">
           <p class="eyebrow">Producto no encontrado</p>
-          <h1 class="mt-3 text-4xl font-black sm:text-5xl">Este producto no esta disponible</h1>
-          <p class="mt-5 leading-8 text-muted">Puede que el producto aun no se haya sincronizado, este inactivo o la URL haya cambiado.</p>
-          <a href={sitePath('/productos')} class="btn-primary mt-8">Volver al catalogo</a>
+          <h1 class="mt-3 text-4xl font-black sm:text-5xl">Este producto no está disponible</h1>
+          <p class="mt-5 leading-8 text-muted">Puede que el producto aún no se haya sincronizado, esté inactivo o la URL haya cambiado.</p>
+          <a href={sitePath('/productos')} class="btn-primary mt-8">Volver al catálogo</a>
         </div>
       </section>
     )

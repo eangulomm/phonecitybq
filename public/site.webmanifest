@@ -1,9 +1,10 @@
 {
-  "name": "NovaCell Premium",
-  "short_name": "NovaCell",
-  "start_url": "/",
+  "name": "Phone City BQ",
+  "short_name": "Phone City BQ",
+  "start_url": "/phonecitybq/",
+  "scope": "/phonecitybq/",
   "display": "standalone",
-  "background_color": "#f7f9fb",
-  "theme_color": "#0d9488",
-  "lang": "es"
+  "background_color": "#fff7f2",
+  "theme_color": "#ff4b00",
+  "lang": "es-CO"
 }

@@ -31,19 +31,19 @@ const fallbackName = slug
   .join(' ');
 const category = (await getCategoryBySlug(slug)) || {
   slug,
-  name: fallbackName || 'Categoria',
-  description: products.length ? `Productos disponibles en ${fallbackName}.` : 'Categoria del catalogo.',
+  name: fallbackName || 'Categoría',
+  description: products.length ? `Productos disponibles en ${fallbackName}.` : 'Categoría del catálogo.',
   image: products[0]?.mainImage || sitePath('/og-image.svg'),
 };
 ---
 
-<BaseLayout title={category.name} description={category.description} image={category.image}>
+<BaseLayout title={category.name} description={category.description} image={category.image} robots={products.length ? 'index,follow' : 'noindex,follow'}>
   <section class="section">
     <div class="container">
       <div class="mb-8 overflow-hidden rounded-[var(--radius-lg)] bg-ink text-white">
         <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
           <div class="p-8 sm:p-10">
-            <p class="eyebrow text-accent">Categoria</p>
+            <p class="eyebrow text-accent">Categoría</p>
             <h1 class="mt-3 text-4xl font-black sm:text-5xl">{category.name}</h1>
             <p class="mt-4 max-w-xl leading-7 text-white/75">{category.description}</p>
           </div>

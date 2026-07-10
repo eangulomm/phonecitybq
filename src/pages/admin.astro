@@ -11,7 +11,7 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
       <PageIntro
         eyebrow="Gestion de tienda"
         title="Productos de la tienda"
-        description="Crea productos, cambia precios, actualiza fotos y controla que articulos se muestran en el catalogo."
+        description="Crea productos, cambia precios, actualiza fotos y controla qué artículos se muestran en el catálogo."
       />
 
       <div class="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-bold leading-6 text-emerald-900" data-admin-message>
@@ -43,7 +43,7 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
 
             <label class="mt-5 grid gap-2 text-sm font-bold" for="admin-main-image">
               Imagen usada por el producto
-              <textarea id="admin-main-image" class="min-h-24 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="mainImage" placeholder="Aqui aparecera la imagen subida"></textarea>
+              <textarea id="admin-main-image" class="min-h-24 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="mainImage" placeholder="Aquí aparecerá la imagen subida"></textarea>
             </label>
 
           </section>
@@ -131,8 +131,8 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
             </div>
 
             <label class="grid gap-2 text-sm font-bold">
-              Galeria de imagenes
-              <textarea class="min-h-24 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="images" placeholder="Si pegas varias imagenes, puedes poner una por linea. El sistema agrega las comas."></textarea>
+              Galería de imágenes
+              <textarea class="min-h-24 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="images" placeholder="Si pegas varias imágenes, puedes poner una por línea. El sistema agrega las comas."></textarea>
             </label>
 
             <label class="grid gap-2 text-sm font-bold">
@@ -143,12 +143,12 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
             <div class="grid gap-4 md:grid-cols-2">
               <label class="grid gap-2 text-sm font-bold">
                 Caracteristicas
-                <textarea class="min-h-36 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="specs" placeholder="Pantalla: 6.1 OLED&#10;Memoria: 256GB&#10;Bateria: 90%"></textarea>
+                <textarea class="min-h-36 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="specs" placeholder="Pantalla: 6.1 OLED&#10;Memoria: 256GB&#10;Batería: 90%"></textarea>
               </label>
               <label class="grid gap-2 text-sm font-bold">
                 Palabras clave
                 <textarea class="min-h-36 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="tags" placeholder="Se generan automaticamente desde los datos del producto"></textarea>
-                <span class="text-xs font-normal leading-5 text-muted">Se actualizan solas con el nombre, tipo y caracteristicas. Tambien puedes agregar una palabra manual separada por coma.</span>
+                <span class="text-xs font-normal leading-5 text-muted">Se actualizan solas con el nombre, tipo y características. También puedes agregar una palabra manual separada por coma.</span>
               </label>
             </div>
 

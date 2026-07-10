@@ -8,15 +8,18 @@ const staticPages = [
   'productos',
   'contacto',
   'preguntas-frecuentes',
-  'buscar',
 ];
 
 export async function GET() {
   const [config, categories, products] = await Promise.all([getSiteConfig(), getCategories(), getProducts()]);
+  const iphoneProducts = products.filter(isIphoneProduct);
+  const productCategorySlugs = new Set(iphoneProducts.map((product) => product.category));
   const urls = [
     ...staticPages.map((path) => new URL(path, config.url).toString()),
-    ...categories.map((category) => new URL(`categoria/${category.slug}`, config.url).toString()),
-    ...products.filter(isIphoneProduct).map((product) => new URL(`productos/${product.slug}`, config.url).toString()),
+    ...categories
+      .filter((category) => productCategorySlugs.has(category.slug))
+      .map((category) => new URL(`categoria/${category.slug}`, config.url).toString()),
+    ...iphoneProducts.map((product) => new URL(`productos/${product.slug}`, config.url).toString()),
   ];
 
   return new Response(renderSitemap(urls), {

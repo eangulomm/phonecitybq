@@ -5,10 +5,10 @@ import { normalizeCategory, normalizeSlug } from './mappers';
 export async function getCategories() {
   const remoteCategories = await fetchFromAppsScript('categories');
   const categoryMap = new Map();
-  categories.map(normalizeCategory).forEach((category) => categoryMap.set(category.slug, category));
   (remoteCategories?.data || remoteCategories || [])
     .map(normalizeCategory)
     .forEach((category) => categoryMap.set(category.slug, category));
+  categories.map(normalizeCategory).forEach((category) => categoryMap.set(category.slug, category));
   return Array.from(categoryMap.values());
 }
 

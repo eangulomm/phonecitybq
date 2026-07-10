@@ -4,11 +4,11 @@ import PageIntro from '../components/shared/PageIntro.astro';
 import { sitePath } from '../utils/format';
 ---
 
-<BaseLayout title="Pagina no encontrada" description="La pagina solicitada no existe.">
+<BaseLayout title="Página no encontrada" description="La página solicitada no existe.">
   <section class="section">
     <div class="container max-w-2xl text-center">
-      <PageIntro eyebrow="Error 404" title="No encontramos esta pagina" description="Puede que el producto haya cambiado de URL o que el enlace este incompleto." />
-      <a href={sitePath('/productos')} class="btn-primary mt-8">Volver al catalogo</a>
+      <PageIntro eyebrow="Error 404" title="No encontramos esta página" description="Puede que el producto haya cambiado de URL o que el enlace esté incompleto." />
+      <a href={sitePath('/productos')} class="btn-primary mt-8">Volver al catálogo</a>
     </div>
   </section>
 </BaseLayout>

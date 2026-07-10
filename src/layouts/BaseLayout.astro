@@ -23,15 +23,28 @@ const {
 const pageTitle = title === config.name ? title : `${title} | ${config.name}`;
 const canonicalUrl = absoluteUrl(config.url, canonical);
 const imageUrl = absoluteUrl(config.url, image);
+const socialLinks = Object.values(config.social || {}).filter(Boolean);
 const organizationLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': 'ElectronicsStore',
   name: config.name,
   url: config.url,
-  email: config.email,
-  address: config.address,
-  sameAs: Object.values(config.social),
+  image: imageUrl,
+  telephone: `+${config.whatsapp}`,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Barranquilla',
+    addressCountry: 'CO',
+  },
+  sameAs: socialLinks,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: `+${config.whatsapp}`,
+    contactType: 'sales',
+    availableLanguage: 'Spanish',
+  },
 };
+if (config.email) organizationLd.email = config.email;
 ---
 
 <!doctype html>
@@ -46,6 +59,7 @@ const organizationLd = {
     <meta name="robots" content={robots} />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -54,6 +68,7 @@ const organizationLd = {
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={pageTitle} />
     <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>

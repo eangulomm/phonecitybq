@@ -18,10 +18,10 @@ const highestPrice = Math.max(...products.map((product) => product.price), 55000
 const maxFilterPrice = Math.ceil(highestPrice / 100000) * 100000;
 ---
 
-<BaseLayout title="Catalogo iPhone" description="Catalogo de iPhone nuevos y seminuevos disponibles en Phone City BQ.">
+<BaseLayout title="Catálogo iPhone" description="Catálogo de iPhone nuevos y seminuevos disponibles en Phone City BQ.">
   <section class="section">
     <div class="container">
-      <PageIntro eyebrow="Catalogo" title="iPhone disponibles" description="Modelos nuevos y seminuevos con asesoria directa de Phone City BQ." actions={[{ label: 'Comprar por WhatsApp', href: `https://wa.me/${config.whatsapp}` }]} />
+      <PageIntro eyebrow="Catálogo" title="iPhone disponibles" description="Modelos nuevos y seminuevos con asesoría directa de Phone City BQ." actions={[{ label: 'Comprar por WhatsApp', href: `https://wa.me/${config.whatsapp}` }]} />
       <div class="grid gap-8 lg:grid-cols-[280px_1fr]">
         <aside class="surface h-fit rounded-[var(--radius-lg)] p-5">
           <h2 class="font-black">Filtros</h2>
@@ -29,7 +29,7 @@ const maxFilterPrice = Math.ceil(highestPrice / 100000) * 100000;
             <label class="grid gap-2 text-sm font-bold">Buscar
               <input class="rounded-full border border-line bg-paper px-4 py-3 font-normal outline-none" data-filter-search placeholder="Nombre o referencia" />
             </label>
-            <label class="grid gap-2 text-sm font-bold">Categoria
+            <label class="grid gap-2 text-sm font-bold">Categoría
               <select class="rounded-full border border-line bg-paper px-4 py-3 font-normal" data-filter-category>
                 <option value="">Todas</option>
                 {categories.map((category) => <option value={category.slug}>{category.name}</option>)}
@@ -41,7 +41,7 @@ const maxFilterPrice = Math.ceil(highestPrice / 100000) * 100000;
                 {brands.map((brand) => <option value={brand}>{brand}</option>)}
               </select>
             </label>
-            <label class="grid gap-2 text-sm font-bold">Precio maximo
+            <label class="grid gap-2 text-sm font-bold">Precio máximo
               <input type="range" min="0" max={maxFilterPrice} step="100000" value={maxFilterPrice} data-filter-price />
               <span class="text-muted" data-price-label>{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(maxFilterPrice)}</span>
             </label>
@@ -64,7 +64,7 @@ const maxFilterPrice = Math.ceil(highestPrice / 100000) * 100000;
           <div class="mt-8 text-center">
             <button class="btn-secondary" data-load-more>
               <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
-              Cargar mas
+              Cargar más
             </button>
           </div>
         </div>

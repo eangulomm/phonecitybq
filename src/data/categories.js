@@ -2,33 +2,25 @@ export const categories = [
   {
     id: 'celulares',
     slug: 'celulares',
-    name: 'Celulares',
-    description: 'iPhone, Samsung, Xiaomi, Motorola y equipos certificados.',
+    name: 'iPhone',
+    description: 'iPhone nuevos y seminuevos disponibles con asesoría directa.',
     image:
       'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85',
   },
   {
-    id: 'accesorios',
-    slug: 'accesorios',
-    name: 'Accesorios',
-    description: 'Audio, cargadores, proteccion, wearables y perifericos.',
+    id: 'iphone-nuevo',
+    slug: 'iphone-nuevo',
+    name: 'iPhone nuevos',
+    description: 'Equipos nuevos para estrenar con disponibilidad confirmada.',
     image:
-      'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?auto=format&fit=crop&w=900&q=85',
+      'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=900&q=85',
   },
   {
-    id: 'computadores',
-    slug: 'computadores',
-    name: 'Computadores',
-    description: 'Portatiles, tablets y equipos para trabajo o estudio.',
+    id: 'iphone-seminuevo',
+    slug: 'iphone-seminuevo',
+    name: 'iPhone seminuevos',
+    description: 'Equipos revisados con fotos, condición y precio claros.',
     image:
-      'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85',
-  },
-  {
-    id: 'hogar-tech',
-    slug: 'hogar-tech',
-    name: 'Hogar Tech',
-    description: 'Electrodomesticos inteligentes, sonido y entretenimiento.',
-    image:
-      'https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=900&q=85',
+      'https://images.unsplash.com/photo-1695048065040-ffcd6f681a5a?auto=format&fit=crop&w=900&q=85',
   },
 ];

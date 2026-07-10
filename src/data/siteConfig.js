@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: 'Phone City BQ',
-  tagline: 'La tecnologia que te mueve',
+  tagline: 'La tecnología que te mueve',
   logoText: 'PHONE CITY BQ',
   logoImage: '/phonecity-bq-logo.png',
   url: 'https://eangulomm.github.io/phonecitybq/',
@@ -14,11 +14,11 @@ export const siteConfig = {
   },
   social: {
     instagram: 'https://www.instagram.com/phonecity_bq/',
-    facebook: 'https://facebook.com/',
+    facebook: '',
     tiktok: 'https://www.tiktok.com/@phonecitybq?_r=1',
   },
   nav: [
-    { label: 'Catalogo', href: '/productos' },
+    { label: 'Catálogo', href: '/productos' },
     { label: 'Nuevos', href: '/#nuevos' },
     { label: 'Seminuevos', href: '/#seminuevos' },
     { label: 'Contacto', href: '/contacto' },
@@ -26,7 +26,7 @@ export const siteConfig = {
   hero: {
     title: 'iPhone nuevos y seminuevos en Barranquilla',
     subtitle:
-      'Elige tu proximo iPhone con asesoria directa, equipos revisados, disponibilidad real y atencion por WhatsApp.',
+      'Elige tu próximo iPhone con asesoría directa, equipos revisados, disponibilidad real y atención por WhatsApp.',
     cta: 'Ver iPhone disponibles',
     secondaryCta: 'Comprar por WhatsApp',
     image:
@@ -34,16 +34,16 @@ export const siteConfig = {
   },
   banners: [
     {
-      title: 'Renueva tu iPhone con asesoria',
+      title: 'Renueva tu iPhone con asesoría',
       text: 'Cuéntanos tu presupuesto y te ayudamos a elegir entre iPhone nuevo o seminuevo.',
       href: '/productos',
     },
   ],
   benefits: [
-    { title: 'Solo iPhone', text: 'Catalogo enfocado en modelos Apple nuevos y seminuevos.' },
-    { title: 'Equipos revisados', text: 'Validamos condicion, estado fisico y disponibilidad antes de vender.' },
-    { title: 'Atencion por WhatsApp', text: 'Resolvemos dudas y confirmamos tu compra de forma directa.' },
-    { title: 'Entrega coordinada', text: 'Acordamos pago, entrega y soporte segun tu ciudad.' },
+    { title: 'Solo iPhone', text: 'Catálogo enfocado en modelos Apple nuevos y seminuevos.' },
+    { title: 'Equipos revisados', text: 'Validamos condición, estado físico y disponibilidad antes de vender.' },
+    { title: 'Atención por WhatsApp', text: 'Resolvemos dudas y confirmamos tu compra de forma directa.' },
+    { title: 'Entrega coordinada', text: 'Acordamos pago, entrega y soporte según tu ciudad.' },
   ],
   paymentMethods: ['Transferencia', 'Efectivo', 'Nequi', 'Daviplata', 'Tarjeta'],
   brands: ['iPhone 11', 'iPhone 12', 'iPhone 13', 'iPhone 14', 'iPhone 15', 'iPhone 16'],
@@ -58,21 +58,21 @@ export const siteConfig = {
     },
     {
       name: 'Diana P.',
-      text: 'La asesoria fue rapida y me explicaron que modelo me convenia segun mi presupuesto.',
+      text: 'La asesoría fue rápida y me explicaron qué modelo me convenía según mi presupuesto.',
     },
   ],
   faq: [
     {
-      q: 'Venden iPhone nuevos y seminuevos?',
-      a: 'Si. Cada producto indica su condicion para que puedas elegir el equipo que mejor se ajuste a tu presupuesto.',
+      q: '¿Venden iPhone nuevos y seminuevos?',
+      a: 'Sí. Cada producto indica su condición para que puedas elegir el equipo que mejor se ajuste a tu presupuesto.',
     },
     {
-      q: 'Puedo comprar por WhatsApp?',
-      a: 'Si. Puedes enviar el producto que te interesa y confirmar disponibilidad, precio y entrega.',
+      q: '¿Puedo comprar por WhatsApp?',
+      a: 'Sí. Puedes enviar el producto que te interesa y confirmar disponibilidad, precio y entrega.',
     },
     {
-      q: 'Como se si un seminuevo esta en buen estado?',
-      a: 'Te compartimos detalles del estado fisico, referencia, capacidad, condicion y fotos antes de cerrar la compra.',
+      q: '¿Cómo sé si un seminuevo está en buen estado?',
+      a: 'Te compartimos detalles del estado físico, referencia, capacidad, condición y fotos antes de cerrar la compra.',
     },
   ],
 };

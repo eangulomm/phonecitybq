@@ -15,7 +15,7 @@ $env:ASTRO_TELEMETRY_DISABLED='1'; npm.cmd run build
 Los mocks viven en `src/data`. La capa preparada para API vive en `src/services`:
 
 - `apiClient.js`: cliente para Apps Script.
-- `mappers.js`: normaliza productos y categorias antes de usarlos.
+- `mappers.js`: normaliza productos y categorías antes de usarlos.
 - `products.js`, `categories.js`, `siteConfig.js`: servicios consumidos por paginas y componentes.
 
 Para usar Apps Script:
@@ -27,7 +27,7 @@ PUBLIC_APPS_SCRIPT_API_URL=https://script.google.com/macros/s/TU_DEPLOYMENT_ID/e
 
 El endpoint debe responder a `?resource=products`, `?resource=categories` y `?resource=siteConfig`, devolviendo un arreglo directo o `{ "data": [...] }`.
 
-En GitHub Pages, el workflow reconstruye la web con Apps Script en cada push y cada 30 minutos para traer productos e imagenes nuevas desde Google Sheets.
+En GitHub Pages, el workflow reconstruye la web con Apps Script en cada push y cada 30 minutos para traer productos e imágenes nuevas desde Google Sheets.
 
 ## Estructura esperada de producto
 

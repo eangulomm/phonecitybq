@@ -10,7 +10,7 @@ const phoneLabel = config.phoneDisplay || `+${config.whatsapp}`;
     <div class="container grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
       <div>
         <p class="eyebrow">Contacto</p>
-        <h1 class="mt-3 text-4xl font-black sm:text-5xl">Compra tu proximo iPhone</h1>
+        <h1 class="mt-3 text-4xl font-black sm:text-5xl">Compra tu próximo iPhone</h1>
         <div class="mt-8 grid gap-3 text-muted">
           <a class="inline-flex items-center gap-2" href={`https://wa.me/${config.whatsapp}`}>
             <i class="fa-brands fa-whatsapp text-brand" aria-hidden="true"></i>
@@ -30,13 +30,13 @@ const phoneLabel = config.phoneDisplay || `+${config.whatsapp}`;
               Correo: {config.email}
             </a>
           )}
-          <span class="inline-flex items-center gap-2"><i class="fa-solid fa-location-dot text-brand" aria-hidden="true"></i>Direccion: {config.address}</span>
+          <span class="inline-flex items-center gap-2"><i class="fa-solid fa-location-dot text-brand" aria-hidden="true"></i>Dirección: {config.address}</span>
         </div>
       </div>
       <form class="surface grid gap-4 rounded-[var(--radius-lg)] p-6">
         <label class="grid gap-2 font-bold">Nombre<input class="rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" /></label>
         <label class="grid gap-2 font-bold">Correo<input type="email" class="rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" /></label>
-        <label class="grid gap-2 font-bold">Que iPhone buscas?<textarea rows="5" class="rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" placeholder="Ej: iPhone 13 Pro 256GB seminuevo"></textarea></label>
+        <label class="grid gap-2 font-bold">¿Qué iPhone buscas?<textarea rows="5" class="rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" placeholder="Ej: iPhone 13 Pro 256GB seminuevo"></textarea></label>
         <a class="btn-primary justify-self-start" href={`https://wa.me/${config.whatsapp}`} target="_blank" rel="noreferrer">
           <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
           Abrir WhatsApp

@@ -47,7 +47,7 @@ if (root) {
       if (target.closest('[data-load-products]')) await withLoading('Cargando productos', 'Estamos trayendo tu lista de productos.', loadProducts);
       if (target.closest('[data-create-product]')) await withLoading('Creando producto', 'Estamos guardando el producto nuevo.', () => saveProduct('createProduct'));
       if (target.closest('[data-update-product]')) await withLoading('Actualizando producto', 'Estamos guardando los cambios.', () => saveProduct('updateProduct'));
-      if (target.closest('[data-delete-product]')) await withLoading('Ocultando producto', 'Estamos quitandolo del catalogo publico.', deleteProduct);
+      if (target.closest('[data-delete-product]')) await withLoading('Ocultando producto', 'Estamos quitándolo del catálogo público.', deleteProduct);
       if (target.closest('[data-reset-form]')) resetForm();
       if (target.closest('[data-clear-output]')) writeOutput('Listo para trabajar.');
 
@@ -109,10 +109,10 @@ if (root) {
   async function uploadImage() {
     assertApiUrl();
     const files = [...(fileInput.files || [])];
-    if (!files.length) throw new Error('Selecciona una o varias imagenes.');
-    if (files.some((file) => !file.type.startsWith('image/'))) throw new Error('Solo puedes subir imagenes.');
+    if (!files.length) throw new Error('Selecciona una o varias imágenes.');
+    if (files.some((file) => !file.type.startsWith('image/'))) throw new Error('Solo puedes subir imágenes.');
 
-    showMessage(files.length === 1 ? 'Subiendo imagen...' : `Subiendo ${files.length} imagenes...`);
+    showMessage(files.length === 1 ? 'Subiendo imagen...' : `Subiendo ${files.length} imágenes...`);
     writeOutput('Subiendo imagen...');
 
     const uploaded = [];
@@ -157,7 +157,7 @@ if (root) {
     const product = collectProduct(isCreate);
     if (!product.name) throw new Error('El nombre es obligatorio.');
     if (!product.mainImage) throw new Error('Sube o pega una imagen principal.');
-    if (!isCreate && !product.id) throw new Error('Selecciona un producto del catalogo antes de actualizar.');
+    if (!isCreate && !product.id) throw new Error('Selecciona un producto del catálogo antes de actualizar.');
 
     showMessage(isCreate ? 'Creando producto...' : `Actualizando ${product.name}...`);
     writeOutput(isCreate ? 'Creando producto...' : `Actualizando ${product.name}...`);
@@ -177,7 +177,7 @@ if (root) {
 
     const result = await request('deleteProduct', { id, slug });
     if (!result.ok) throw new Error(result.error?.message || 'No se pudo desactivar el producto.');
-    showMessage('Producto ocultado del catalogo.', 'success');
+    showMessage('Producto ocultado del catálogo.', 'success');
     writeOutput(result);
     resetForm();
     await loadProducts();
@@ -369,7 +369,7 @@ if (root) {
       try {
         return JSON.parse(text);
       } catch {
-        throw new Error('Revisa las caracteristicas. Usa una por linea, ejemplo: Pantalla: 6.1 OLED.');
+        throw new Error('Revisa las características. Usa una por línea, ejemplo: Pantalla: 6.1 OLED.');
       }
     }
 

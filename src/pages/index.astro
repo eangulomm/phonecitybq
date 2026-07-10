@@ -18,7 +18,7 @@ const preowned = iphoneProducts.filter((product) => product.condition?.toLowerCa
 <BaseLayout title="iPhone nuevos y seminuevos" description={config.hero.subtitle}>
   <Hero config={config} />
   <Benefits benefits={config.benefits} />
-  <ProductSection id="catalogo" eyebrow="Catalogo" title="iPhone disponibles" products={iphoneProducts} whatsapp={config.whatsapp} surface />
+  <ProductSection id="catalogo" eyebrow="Catálogo" title="iPhone disponibles" products={iphoneProducts} whatsapp={config.whatsapp} surface />
   <ProductSection id="nuevos" eyebrow="Nuevos" title="iPhone nuevos" products={newest} whatsapp={config.whatsapp} />
   <ProductSection id="seminuevos" eyebrow="Seminuevos" title="iPhone seminuevos revisados" products={preowned} whatsapp={config.whatsapp} surface />
   <ContentSections config={config} />

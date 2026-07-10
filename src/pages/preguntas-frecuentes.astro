@@ -5,10 +5,10 @@ import { getSiteConfig } from '../services/siteConfig';
 const config = await getSiteConfig();
 ---
 
-<BaseLayout title="Preguntas frecuentes" description="Respuestas sobre compras, garantia, pagos y envios.">
+<BaseLayout title="Preguntas frecuentes" description="Respuestas sobre compras, garantía, pagos y envíos.">
   <section class="section">
     <div class="container max-w-4xl">
-      <PageIntro eyebrow="Ayuda" title="Preguntas frecuentes" description="Respuestas sobre compra asistida, garantia, pagos y disponibilidad." />
+      <PageIntro eyebrow="Ayuda" title="Preguntas frecuentes" description="Respuestas sobre compra asistida, garantía, pagos y disponibilidad." />
       <div class="mt-8 grid gap-3">
         {config.faq.map((item) => (
           <details class="surface rounded-2xl p-5" open>

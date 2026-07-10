@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://demo.tutienda.com/sitemap.xml
+Sitemap: https://eangulomm.github.io/phonecitybq/sitemap.xml
