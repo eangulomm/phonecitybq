@@ -2,7 +2,7 @@
 import ProductCarousel from './ProductCarousel.astro';
 import { sitePath } from '../../utils/format';
 
-const { eyebrow, title, products, surface = false, whatsapp, id, viewAllHref = '/productos' } = Astro.props;
+const { eyebrow, title, products, surface = false, whatsapp, id, viewAllHref = '/productos', live = false, scope = 'all' } = Astro.props;
 const carouselId = `${id || title.toLowerCase().replace(/\s+/g, '-')}-carousel`;
 ---
 
@@ -17,6 +17,6 @@ const carouselId = `${id || title.toLowerCase().replace(/\s+/g, '-')}-carousel`;
         Ver catálogo
       </a>
     </div>
-    <ProductCarousel products={products} whatsapp={whatsapp} carouselId={carouselId} />
+    <ProductCarousel products={products} whatsapp={whatsapp} carouselId={carouselId} live={live} scope={scope} />
   </div>
 </section>

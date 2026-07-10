@@ -1,5 +1,5 @@
 ---
-import { sitePath } from '../../utils/format';
+import { productDetailPath, sitePath } from '../../utils/format';
 
 const { config, products = [] } = Astro.props;
 const searchProducts = products.map((product) => ({
@@ -9,7 +9,7 @@ const searchProducts = products.map((product) => ({
   category: product.category,
   price: product.price,
   image: product.mainImage,
-  url: sitePath(`/productos/${product.slug}`),
+  url: productDetailPath(product.slug),
 }));
 ---
 

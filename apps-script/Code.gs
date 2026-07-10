@@ -224,7 +224,7 @@ function doGet(e) {
   try {
     setupSheets();
     var resource = sanitizeText((e && e.parameter && e.parameter.resource) || '', 40);
-    if (!ALLOWED_GET_RESOURCES[resource]) return errorResponse('INVALID_RESOURCE', 'GET resource is not allowed.');
+    if (!ALLOWED_GET_RESOURCES[resource]) return errorResponse('INVALID_RESOURCE', 'GET resource is not allowed.', e);
 
     var data;
     if (resource === 'products') data = getProducts();
@@ -240,9 +240,9 @@ function doGet(e) {
     if (resource === 'siteConfig') data = getSiteConfig();
     if (resource === 'search') data = searchProducts((e.parameter && e.parameter.q) || '');
 
-    return jsonResponse({ ok: true, data: data });
+    return jsonResponse({ ok: true, data: data }, e);
   } catch (err) {
-    return errorResponse(err.code || 'REQUEST_FAILED', err.publicMessage || 'The request could not be completed.');
+    return errorResponse(err.code || 'REQUEST_FAILED', err.publicMessage || 'The request could not be completed.', e);
   }
 }
 
@@ -659,20 +659,35 @@ function generateId(prefix) {
   return String(prefix || 'ID').toUpperCase() + '-' + stamp + '-' + random;
 }
 
-function jsonResponse(payload) {
+function jsonResponse(payload, e) {
+  var json = JSON.stringify(payload);
+  var callback = sanitizeCallbackName(e && e.parameter && e.parameter.callback);
+  if (callback) {
+    return ContentService
+      .createTextOutput(callback + '(' + json + ');')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+
   return ContentService
-    .createTextOutput(JSON.stringify(payload))
+    .createTextOutput(json)
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-function errorResponse(code, message) {
+function errorResponse(code, message, e) {
   return jsonResponse({
     ok: false,
     error: {
       code: sanitizeText(code || 'ERROR', 80),
       message: sanitizeText(message || 'Unexpected error.', 240)
     }
-  });
+  }, e);
+}
+
+function sanitizeCallbackName(value) {
+  var callback = String(value || '').trim();
+  if (!callback) return '';
+  if (!/^[A-Za-z_$][0-9A-Za-z_$]*(\.[A-Za-z_$][0-9A-Za-z_$]*)*$/.test(callback)) return '';
+  return callback.substring(0, 120);
 }
 
 function normalizeProductRow(row) {

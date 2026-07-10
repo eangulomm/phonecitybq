@@ -2,12 +2,12 @@
 import ProductCard from './ProductCard.astro';
 import { getSiteConfig } from '../../services/siteConfig';
 
-const { products, emptyText = 'No hay productos disponibles por ahora.', whatsapp, carouselId } = Astro.props;
+const { products, emptyText = 'No hay productos disponibles por ahora.', whatsapp, carouselId, live = false, scope = 'all' } = Astro.props;
 const config = whatsapp ? null : await getSiteConfig();
 const whatsappNumber = whatsapp || config.whatsapp;
 ---
 
-<div class="relative" data-product-carousel>
+<div class="relative" data-product-carousel data-live-products={live ? 'carousel' : undefined} data-live-scope={scope} data-whatsapp={whatsappNumber}>
   {
     products.length > 0 ? (
       <>
@@ -15,6 +15,7 @@ const whatsappNumber = whatsapp || config.whatsapp;
           id={carouselId}
           class="product-carousel -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 sm:-mx-6 sm:gap-5 sm:px-6"
           data-carousel-track
+          data-live-track
           tabindex="0"
           aria-label="Productos destacados"
         >

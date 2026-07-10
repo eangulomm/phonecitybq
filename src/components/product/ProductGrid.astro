@@ -2,12 +2,12 @@
 import ProductCard from './ProductCard.astro';
 import { getSiteConfig } from '../../services/siteConfig';
 
-const { products, emptyText = 'No encontramos productos con esos filtros.', whatsapp } = Astro.props;
+const { products, emptyText = 'No encontramos productos con esos filtros.', whatsapp, live = false, scope = 'all' } = Astro.props;
 const config = whatsapp ? null : await getSiteConfig();
 const whatsappNumber = whatsapp || config.whatsapp;
 ---
 
-<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" data-product-grid>
+<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" data-product-grid data-live-products={live ? 'grid' : undefined} data-live-scope={scope}>
   {products.map((product) => <ProductCard product={product} whatsapp={whatsappNumber} />)}
 </div>
 <p class="hidden rounded-2xl border border-dashed border-line p-8 text-center text-muted" data-empty-products>{emptyText}</p>

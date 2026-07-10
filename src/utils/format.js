@@ -15,6 +15,10 @@ export function sitePath(path = '/') {
   return `${base}${normalizedPath}` || '/';
 }
 
+export function productDetailPath(slug) {
+  return sitePath(`/producto?slug=${encodeURIComponent(slug)}`);
+}
+
 export function whatsappProductUrl(phone, product) {
   const condition = product.condition ? ` ${product.condition.toLowerCase()}` : '';
   const message = `Hola Phone City BQ, quiero comprar este iPhone${condition}: ${product.name}. Precio: ${formatPrice(product.price)}.`;

@@ -47,10 +47,12 @@ export function initGallery() {
 
 export function initCarousels() {
   document.querySelectorAll('[data-product-carousel]').forEach((carousel) => {
-    const track = carousel.querySelector('[data-carousel-track]');
-    if (!track) return;
+    if (carousel.dataset.carouselReady === 'true') return;
+    carousel.dataset.carouselReady = 'true';
 
     const scrollByCard = (direction) => {
+      const track = carousel.querySelector('[data-carousel-track]');
+      if (!track) return;
       const card = track.querySelector('.snap-start');
       const cardWidth = card?.getBoundingClientRect().width || Math.min(340, track.clientWidth * 0.9);
       track.scrollBy({ left: direction * (cardWidth + 20), behavior: 'smooth' });
@@ -63,17 +65,14 @@ export function initCarousels() {
 
 export function initSearchSuggestions() {
   document.querySelectorAll('[data-search-suggest]').forEach((form) => {
+    if (form.dataset.searchReady === 'true') return;
+    form.dataset.searchReady = 'true';
+
     const input = form.querySelector('[data-search-input]');
     const results = form.querySelector('[data-search-results]');
     if (!input || !results) return;
 
-    let products = [];
     let activeIndex = -1;
-    try {
-      products = JSON.parse(form.dataset.products || '[]');
-    } catch {
-      products = [];
-    }
 
     const close = () => {
       results.classList.add('hidden');
@@ -87,6 +86,7 @@ export function initSearchSuggestions() {
     };
 
     const render = () => {
+      const products = readSearchProducts(form);
       const query = normalize(input.value);
       if (!query) {
         close();
@@ -103,7 +103,7 @@ export function initSearchSuggestions() {
       if (!matches.length) {
         results.innerHTML = `
           <div class="px-3 py-3 text-sm text-muted">No encontramos coincidencias.</div>
-          <a class="block rounded-xl px-3 py-3 text-sm font-black text-brand hover:bg-paper" href="${pathWithBase(`/buscar?q=${encodeURIComponent(input.value)}`)}">Ver busqueda completa</a>
+          <a class="block rounded-xl px-3 py-3 text-sm font-black text-brand hover:bg-paper" href="${pathWithBase(`/buscar?q=${encodeURIComponent(input.value)}`)}">Ver búsqueda completa</a>
         `;
         open();
         return;
@@ -160,6 +160,14 @@ export function initSearchSuggestions() {
       if (!form.contains(event.target)) close();
     });
   });
+}
+
+function readSearchProducts(form) {
+  try {
+    return JSON.parse(form.dataset.products || '[]');
+  } catch {
+    return [];
+  }
 }
 
 function focusSuggestion(items, index) {

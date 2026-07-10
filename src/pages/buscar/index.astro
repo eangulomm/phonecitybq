@@ -22,7 +22,7 @@ const products = (await getProducts()).filter(isIphoneProduct);
         </button>
       </form>
       <p class="mt-4 text-sm text-muted" data-search-summary></p>
-      <div class="mt-10"><ProductGrid products={products} /></div>
+      <div class="mt-10"><ProductGrid products={products} live scope="all" /></div>
     </div>
   </section>
 </BaseLayout>

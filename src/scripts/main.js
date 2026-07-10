@@ -1,6 +1,7 @@
 import { updateBadges } from './lib/badges';
 import { applyFilters, increaseVisibleLimit, initSearchPage, resetVisibleLimit } from './lib/catalogFilters';
 import { renderFavorites, toggleFavorite } from './lib/favorites';
+import { initLiveProducts } from './lib/liveProducts';
 import { initCarousels, initChat, initGallery, initMobileMenu, initSearchSuggestions } from './lib/ui';
 
 document.addEventListener('click', (event) => {
@@ -25,7 +26,14 @@ initChat();
 initGallery();
 initCarousels();
 initSearchSuggestions();
+initLiveProducts();
 updateBadges();
 renderFavorites();
 applyFilters();
 initSearchPage();
+
+document.addEventListener('products:live-rendered', () => {
+  resetVisibleLimit();
+  applyFilters();
+  initSearchPage();
+});
