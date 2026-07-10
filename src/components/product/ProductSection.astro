@@ -1,0 +1,13 @@
+---
+import ProductGrid from './ProductGrid.astro';
+
+const { eyebrow, title, products, surface = false, whatsapp, id } = Astro.props;
+---
+
+<section id={id} class={`section ${surface ? 'bg-surface' : ''}`}>
+  <div class="container">
+    <p class="eyebrow">{eyebrow}</p>
+    <h2 class="mt-3 text-3xl font-black sm:text-4xl">{title}</h2>
+    <div class="mt-8"><ProductGrid products={products} whatsapp={whatsapp} /></div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+const { config } = Astro.props;
+const phoneLabel = config.phoneDisplay || `+${config.whatsapp}`;
+---
+
+<footer class="border-t border-line bg-ink text-paper">
+  <div class="container grid gap-10 py-14 md:grid-cols-[1.15fr_0.8fr_1fr_1.1fr]">
+    <div>
+      <div class="mb-5 flex items-center gap-4">
+        {config.logoImage && <img class="h-16 w-16 rounded-2xl object-cover" src={config.logoImage} alt={config.name} />}
+        <span class="max-w-52 text-2xl font-black uppercase leading-tight tracking-wide sm:text-3xl">{config.logoText}</span>
+      </div>
+      <p class="max-w-sm text-sm leading-7 text-paper/70">{config.tagline}. Especialistas en iPhone nuevos y seminuevos.</p>
+    </div>
+
+    <div>
+      <h2 class="mb-4 text-sm font-black uppercase tracking-wide">Comprar</h2>
+      <div class="grid gap-3 text-sm text-paper/72">
+        <a href="/productos">Catalogo</a>
+        <a href="/#nuevos">Nuevos</a>
+        <a href="/#seminuevos">Seminuevos</a>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="mb-4 text-sm font-black uppercase tracking-wide">Comunidad</h2>
+      <div class="grid gap-3 text-sm text-paper/72">
+        <a class="inline-flex items-center gap-2" href={config.social.instagram} target="_blank" rel="noreferrer">
+          <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+          @phonecity_bq
+        </a>
+        <a class="inline-flex items-center gap-2" href={config.social.tiktok} target="_blank" rel="noreferrer">
+          <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
+          @phonecitybq
+        </a>
+        <a href="/preguntas-frecuentes">Preguntas frecuentes</a>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="mb-4 text-sm font-black uppercase tracking-wide">Contacto</h2>
+      <div class="grid gap-3 text-sm text-paper/72">
+        <span class="inline-flex items-center gap-2"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>{config.address}</span>
+        <a class="inline-flex items-center gap-2" href={`tel:+${config.whatsapp}`}><i class="fa-solid fa-phone" aria-hidden="true"></i>{phoneLabel}</a>
+        <a class="inline-flex items-center gap-2" href={`https://wa.me/${config.whatsapp}`} target="_blank" rel="noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i>Comprar por WhatsApp</a>
+        {config.email && <a class="inline-flex items-center gap-2" href={`mailto:${config.email}`}><i class="fa-solid fa-envelope" aria-hidden="true"></i>{config.email}</a>}
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10 py-5">
+    <div class="container text-xs text-paper/60">
+      <span>&copy; {new Date().getFullYear()} {config.name}. Todos los derechos reservados.</span>
+    </div>
+  </div>
+</footer>

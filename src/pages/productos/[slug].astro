@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductGrid from '../../components/product/ProductGrid.astro';
+import { getAllProductPaths, getProductBySlug, getRelatedProducts } from '../../services/products';
+import { getSiteConfig } from '../../services/siteConfig';
+import { formatPrice, whatsappProductUrl } from '../../utils/format';
+import { isIphoneProduct } from '../../utils/productFilters';
+
+export async function getStaticPaths() {
+  const products = await getAllProductPaths();
+  return products.filter(isIphoneProduct).map((product) => ({ params: { slug: product.slug } }));
+}
+
+const foundProduct = await getProductBySlug(Astro.params.slug);
+const product = foundProduct && isIphoneProduct(foundProduct) ? foundProduct : null;
+const config = await getSiteConfig();
+const related = product ? (await getRelatedProducts(product)).filter(isIphoneProduct) : [];
+const productType = product?.category === 'iphone-seminuevo' ? 'iPhone seminuevo' : 'iPhone nuevo';
+const fallbackImage =
+  'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 600 600%22%3E%3Crect width=%22600%22 height=%22600%22 fill=%22%23f1f5f9%22/%3E%3Ctext x=%22300%22 y=%22305%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2228%22 fill=%22%2364758b%22%3EImagen no disponible%3C/text%3E%3C/svg%3E';
+const productLd = product
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: product.name,
+      image: product.images,
+      description: product.description,
+      sku: product.sku,
+      brand: { '@type': 'Brand', name: product.brand },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'COP',
+        price: product.price,
+        availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      },
+    }
+  : null;
+---
+
+<BaseLayout
+  title={product ? product.name : 'Producto no encontrado'}
+  description={product ? product.description || `Detalle de ${product.name}` : 'El producto solicitado no esta disponible.'}
+  image={product?.mainImage || config.hero.image}
+  jsonLd={productLd}
+  robots={product ? 'index,follow' : 'noindex,follow'}
+>
+  {
+    product ? (
+      <section class="section">
+        <div class="container">
+          <nav class="mb-8 text-sm text-muted" aria-label="Breadcrumb">
+            <a href="/">Inicio</a> / <a href="/productos">Productos</a> / <span>{product.name}</span>
+          </nav>
+          <div class="grid gap-10 lg:grid-cols-[1fr_0.9fr]">
+            <div>
+              <div class="surface rounded-[var(--radius-lg)] bg-paper p-6">
+                <img
+                  class="product-main-image mx-auto aspect-square max-h-[620px] w-full object-contain"
+                  src={product.mainImage || fallbackImage}
+                  alt={product.name}
+                  onerror={`this.onerror=null;this.src='${fallbackImage}';`}
+                />
+              </div>
+              <div class="mt-4 flex gap-3">
+                {product.images.map((image) => (
+                  <button class="thumbnail rounded-2xl border border-line bg-surface p-2" data-image={image} aria-label={`Ver imagen de ${product.name}`}>
+                    <img class="h-20 w-20 object-cover" src={image || fallbackImage} alt="" loading="lazy" onerror={`this.onerror=null;this.src='${fallbackImage}';`} />
+                  </button>
+                ))}
+              </div>
+            </div>
+            <article>
+              <p class="eyebrow">{product.brand} / {product.condition}</p>
+              <h1 class="mt-3 text-4xl font-black sm:text-5xl">{product.name}</h1>
+              <div class="mt-6 flex flex-wrap items-end gap-3">
+                <p class="text-4xl font-black">{formatPrice(product.price)}</p>
+                {product.oldPrice && <p class="text-lg text-muted line-through">{formatPrice(product.oldPrice)}</p>}
+                {product.discount > 0 && <span class="rounded-full bg-brand/10 px-3 py-1 text-sm font-black text-brand">Ahorra {product.discount}%</span>}
+              </div>
+              <p class="mt-6 leading-8 text-muted">{product.description}</p>
+              <dl class="mt-6 grid gap-3 rounded-[var(--radius-md)] border border-line bg-surface p-5 text-sm sm:grid-cols-2">
+                <div><dt class="font-black">Disponibilidad</dt><dd class="text-muted">{product.stock > 0 ? `${product.stock} disponible${product.stock === 1 ? '' : 's'}` : 'Agotado'}</dd></div>
+                <div><dt class="font-black">Tipo</dt><dd class="text-muted">{productType}</dd></div>
+                <div><dt class="font-black">Condicion</dt><dd class="text-muted">{product.condition}</dd></div>
+                <div><dt class="font-black">Marca</dt><dd class="text-muted">Apple</dd></div>
+              </dl>
+              <div class="mt-6 grid gap-3 sm:grid-cols-2">
+                <a class="btn-primary" href={whatsappProductUrl(config.whatsapp, product)} target="_blank" rel="noreferrer">
+                  <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                  Comprar por WhatsApp
+                </a>
+                <a class="btn-secondary" href="/productos">
+                  <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                  Volver al catalogo
+                </a>
+              </div>
+              <div class="mt-8 grid gap-3">
+                <details class="surface rounded-2xl p-5" open>
+                  <summary class="cursor-pointer font-black">Especificaciones tecnicas</summary>
+                  <div class="mt-4 grid gap-2 text-sm text-muted">
+                    {Object.entries(product.specs || {}).map(([key, value]) => <p><strong class="text-ink">{key}:</strong> {value}</p>)}
+                  </div>
+                </details>
+                <details class="surface rounded-2xl p-5">
+                  <summary class="cursor-pointer font-black">Pagos y garantia</summary>
+                  <p class="mt-4 leading-7 text-muted">Aceptamos {config.paymentMethods.join(', ')}. La garantia se confirma segun condicion y disponibilidad antes del despacho.</p>
+                </details>
+              </div>
+            </article>
+          </div>
+          <section class="mt-20">
+            <h2 class="text-3xl font-black">Productos relacionados</h2>
+            <div class="mt-8"><ProductGrid products={related} whatsapp={config.whatsapp} /></div>
+          </section>
+        </div>
+      </section>
+    ) : (
+      <section class="section">
+        <div class="container max-w-2xl text-center">
+          <p class="eyebrow">Producto no encontrado</p>
+          <h1 class="mt-3 text-4xl font-black sm:text-5xl">Este producto no esta disponible</h1>
+          <p class="mt-5 leading-8 text-muted">Puede que el producto aun no se haya sincronizado, este inactivo o la URL haya cambiado.</p>
+          <a href="/productos" class="btn-primary mt-8">Volver al catalogo</a>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

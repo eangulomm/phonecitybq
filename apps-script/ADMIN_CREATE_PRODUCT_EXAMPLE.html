@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crear producto</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 32px; max-width: 760px; }
+      label, input, textarea, button { display: block; width: 100%; margin-top: 12px; }
+      input, textarea { padding: 10px; }
+      button { padding: 12px; font-weight: 700; cursor: pointer; }
+      pre { background: #f5f5f5; padding: 12px; overflow: auto; }
+    </style>
+  </head>
+  <body>
+    <h1>Crear producto</h1>
+
+    <label>Apps Script Web App URL <input id="apiUrl" placeholder="https://script.google.com/macros/s/.../exec" /></label>
+    <label>Nombre <input id="name" value="iPhone Demo 256GB" /></label>
+    <label>Marca <input id="brand" value="Apple" /></label>
+    <label>Categoria slug <input id="category" value="celulares" /></label>
+    <label>Precio <input id="price" type="number" value="4890000" /></label>
+    <label>Precio anterior <input id="oldPrice" type="number" value="5290000" /></label>
+    <label>Stock <input id="stock" type="number" value="5" /></label>
+    <label>SKU <input id="sku" value="DEMO-IPHONE-256" /></label>
+    <label>URL mainImage <input id="mainImage" placeholder="Pega aqui la URL devuelta por uploadImage" /></label>
+    <label>URLs images separadas por coma <textarea id="images" rows="3"></textarea></label>
+    <label>Descripcion <textarea id="description" rows="4">Producto demo creado desde admin HTML.</textarea></label>
+
+    <button id="createButton" type="button">Crear producto</button>
+    <pre id="output"></pre>
+
+    <script>
+      const $ = (selector) => document.querySelector(selector);
+
+      $('#createButton').addEventListener('click', async () => {
+        const apiUrl = $('#apiUrl').value.trim();
+        if (!apiUrl) return alert('Pega la URL del Web App.');
+
+        const mainImage = $('#mainImage').value.trim();
+        const images = $('#images').value.trim() || mainImage;
+
+        const product = {
+          name: $('#name').value.trim(),
+          brand: $('#brand').value.trim(),
+          category: $('#category').value.trim(),
+          price: Number($('#price').value),
+          oldPrice: Number($('#oldPrice').value),
+          discount: 8,
+          images: images.split(',').map((url) => url.trim()).filter(Boolean),
+          mainImage,
+          description: $('#description').value.trim(),
+          specs: {
+            Pantalla: '6.1 pulgadas OLED',
+            Memoria: '256GB'
+          },
+          stock: Number($('#stock').value),
+          condition: 'Nuevo',
+          sku: $('#sku').value.trim(),
+          featured: true,
+          isNew: true,
+          bestSeller: false,
+          tags: ['iphone', 'demo'],
+          active: true,
+          sortOrder: 10
+        };
+
+        const response = await fetch(`${apiUrl}?resource=createProduct`, {
+          method: 'POST',
+          body: JSON.stringify(product)
+        });
+
+        const result = await response.json();
+        $('#output').textContent = JSON.stringify(result, null, 2);
+      });
+    </script>
+  </body>
+</html>

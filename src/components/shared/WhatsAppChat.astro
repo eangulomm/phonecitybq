@@ -1,0 +1,31 @@
+---
+const { config } = Astro.props;
+const message = encodeURIComponent(`Hola Phone City BQ, quiero comprar un iPhone.`);
+---
+
+<button class="fixed bottom-5 right-5 z-40 hidden btn-primary shadow-lift" type="button" data-chat-open>
+  <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+  WhatsApp
+</button>
+
+<aside
+  class="fixed bottom-5 right-5 z-40 w-[min(360px,calc(100vw-32px))] rounded-[1.5rem] border border-line bg-surface shadow-lift"
+  data-chat-panel
+  aria-label="Chat de asesoria por WhatsApp"
+>
+  <div class="flex items-center justify-between rounded-t-[1.5rem] bg-brand px-5 py-4 text-white">
+    <strong>Phone City BQ</strong>
+    <button class="grid h-9 w-9 place-items-center rounded-full bg-black/15 text-xl leading-none" type="button" aria-label="Cerrar chat" data-chat-close>
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+  </div>
+  <div class="p-5">
+    <p class="rounded-2xl border border-line bg-paper p-4 text-sm leading-6 text-muted">
+      Hola. Te ayudamos a elegir tu iPhone, confirmar disponibilidad y resolver dudas por WhatsApp.
+    </p>
+    <a class="btn-primary mt-4 w-full" href={`https://wa.me/${config.whatsapp}?text=${message}`} target="_blank" rel="noreferrer">
+      <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+      Abrir WhatsApp
+    </a>
+  </div>
+</aside>

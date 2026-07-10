@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSiteConfig } from '../services/siteConfig';
+const config = await getSiteConfig();
+---
+
+<BaseLayout title="Nosotros" description="Conoce la propuesta comercial de la tienda y su enfoque de asesoria.">
+  <section class="section">
+    <div class="container grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <div>
+        <p class="eyebrow">Nosotros</p>
+        <h1 class="mt-3 text-4xl font-black sm:text-5xl">Tecnologia clara, compra simple y respaldo cercano</h1>
+        <p class="mt-5 leading-8 text-muted">{config.name} es una plantilla comercial creada para tiendas que necesitan vender productos tecnologicos con una experiencia moderna, confiable y facil de administrar.</p>
+      </div>
+      <img class="aspect-[4/3] rounded-[var(--radius-lg)] object-cover shadow-soft" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=85" alt="Equipo asesorando una compra en ecommerce" />
+    </div>
+  </section>
+</BaseLayout>

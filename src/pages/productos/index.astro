@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/shared/PageIntro.astro';
+import ProductGrid from '../../components/product/ProductGrid.astro';
+import { getProducts } from '../../services/products';
+import { getCategories } from '../../services/categories';
+import { getSiteConfig } from '../../services/siteConfig';
+import { isIphoneProduct } from '../../utils/productFilters';
+
+const products = (await getProducts()).filter(isIphoneProduct);
+const productCategorySlugs = new Set(products.map((product) => product.category));
+const categories = (await getCategories()).filter(
+  (category) => productCategorySlugs.has(category.slug) || category.slug.includes('iphone') || category.slug === 'celulares',
+);
+const config = await getSiteConfig();
+const brands = [...new Set(products.map((product) => product.brand))];
+const highestPrice = Math.max(...products.map((product) => product.price), 5500000);
+const maxFilterPrice = Math.ceil(highestPrice / 100000) * 100000;
+---
+
+<BaseLayout title="Catalogo iPhone" description="Catalogo de iPhone nuevos y seminuevos disponibles en Phone City BQ.">
+  <section class="section">
+    <div class="container">
+      <PageIntro eyebrow="Catalogo" title="iPhone disponibles" description="Modelos nuevos y seminuevos con asesoria directa de Phone City BQ." actions={[{ label: 'Comprar por WhatsApp', href: `https://wa.me/${config.whatsapp}` }]} />
+      <div class="grid gap-8 lg:grid-cols-[280px_1fr]">
+        <aside class="surface h-fit rounded-[var(--radius-lg)] p-5">
+          <h2 class="font-black">Filtros</h2>
+          <div class="mt-5 grid gap-4" data-filters>
+            <label class="grid gap-2 text-sm font-bold">Buscar
+              <input class="rounded-full border border-line bg-paper px-4 py-3 font-normal outline-none" data-filter-search placeholder="Nombre o referencia" />
+            </label>
+            <label class="grid gap-2 text-sm font-bold">Categoria
+              <select class="rounded-full border border-line bg-paper px-4 py-3 font-normal" data-filter-category>
+                <option value="">Todas</option>
+                {categories.map((category) => <option value={category.slug}>{category.name}</option>)}
+              </select>
+            </label>
+            <label class="grid gap-2 text-sm font-bold">Marca
+              <select class="rounded-full border border-line bg-paper px-4 py-3 font-normal" data-filter-brand>
+                <option value="">Todas</option>
+                {brands.map((brand) => <option value={brand}>{brand}</option>)}
+              </select>
+            </label>
+            <label class="grid gap-2 text-sm font-bold">Precio maximo
+              <input type="range" min="0" max={maxFilterPrice} step="100000" value={maxFilterPrice} data-filter-price />
+              <span class="text-muted" data-price-label>{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(maxFilterPrice)}</span>
+            </label>
+            <label class="flex items-center gap-3 text-sm font-bold">
+              <input type="checkbox" data-filter-stock /> Solo disponibles
+            </label>
+            <label class="grid gap-2 text-sm font-bold">Ordenar
+              <select class="rounded-full border border-line bg-paper px-4 py-3 font-normal" data-filter-sort>
+                <option value="featured">Destacados</option>
+                <option value="new">Nuevo</option>
+                <option value="price-asc">Menor precio</option>
+                <option value="price-desc">Mayor precio</option>
+                <option value="name">Nombre</option>
+              </select>
+            </label>
+          </div>
+        </aside>
+        <div>
+          <ProductGrid products={products} whatsapp={config.whatsapp} />
+          <div class="mt-8 text-center">
+            <button class="btn-secondary" data-load-more>
+              <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+              Cargar mas
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

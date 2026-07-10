@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Subir imagen de producto</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 32px; max-width: 720px; }
+      label, input, button, textarea { display: block; width: 100%; margin-top: 12px; }
+      input, textarea { padding: 10px; }
+      button { padding: 12px; font-weight: 700; cursor: pointer; }
+      img { display: block; max-width: 280px; margin-top: 16px; border: 1px solid #ddd; }
+      pre { background: #f5f5f5; padding: 12px; overflow: auto; }
+    </style>
+  </head>
+  <body>
+    <h1>Subir imagen</h1>
+    <p>Selecciona una imagen desde celular o computador. El backend devuelve una URL lista para Products.mainImage o Products.images.</p>
+
+    <label>
+      Apps Script Web App URL
+      <input id="apiUrl" placeholder="https://script.google.com/macros/s/.../exec" />
+    </label>
+
+    <label>
+      Imagen
+      <input id="fileInput" type="file" accept="image/*" />
+    </label>
+
+    <button id="uploadButton" type="button">Subir imagen</button>
+
+    <img id="preview" alt="Preview" hidden />
+
+    <label>
+      URL publica para guardar en Sheets
+      <textarea id="imageUrl" rows="3" readonly></textarea>
+    </label>
+
+    <pre id="output"></pre>
+
+    <script>
+      const apiUrlInput = document.querySelector('#apiUrl');
+      const fileInput = document.querySelector('#fileInput');
+      const uploadButton = document.querySelector('#uploadButton');
+      const preview = document.querySelector('#preview');
+      const imageUrl = document.querySelector('#imageUrl');
+      const output = document.querySelector('#output');
+
+      uploadButton.addEventListener('click', async () => {
+        const apiUrl = apiUrlInput.value.trim();
+        const file = fileInput.files[0];
+
+        if (!apiUrl) return alert('Pega la URL del Web App.');
+        if (!file) return alert('Selecciona una imagen.');
+        if (!file.type.startsWith('image/')) return alert('Solo se permiten imagenes.');
+
+        const base64Data = await fileToBase64(file);
+        const response = await fetch(`${apiUrl}?resource=uploadImage`, {
+          method: 'POST',
+          body: JSON.stringify({
+            fileName: file.name,
+            mimeType: file.type,
+            base64Data
+          })
+        });
+
+        const result = await response.json();
+        output.textContent = JSON.stringify(result, null, 2);
+
+        if (!result.ok) return alert(result.error?.message || 'No se pudo subir.');
+
+        imageUrl.value = result.data.url;
+        preview.src = result.data.url;
+        preview.hidden = false;
+      });
+
+      function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result).split(',')[1]);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+    </script>
+  </body>
+</html>

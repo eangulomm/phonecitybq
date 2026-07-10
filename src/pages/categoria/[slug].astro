@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductGrid from '../../components/product/ProductGrid.astro';
+import { getCategories, getCategoryBySlug } from '../../services/categories';
+import { getProducts, getProductsByCategory } from '../../services/products';
+import { normalizeSlug } from '../../services/mappers';
+import { isIphoneProduct } from '../../utils/productFilters';
+
+export async function getStaticPaths() {
+  const [categories, products] = await Promise.all([getCategories(), getProducts()]);
+  const iphoneProducts = products.filter(isIphoneProduct);
+  const productCategorySlugs = new Set(iphoneProducts.map((product) => normalizeSlug(product.category)));
+  const slugs = new Set(
+    categories
+      .filter((category) => productCategorySlugs.has(category.slug) || category.slug === 'celulares' || category.slug.includes('iphone'))
+      .map((category) => category.slug),
+  );
+  iphoneProducts.forEach((product) => slugs.add(normalizeSlug(product.category)));
+  return Array.from(slugs)
+    .filter(Boolean)
+    .map((slug) => ({ params: { slug } }));
+}
+
+const slug = normalizeSlug(Astro.params.slug);
+const products = (await getProductsByCategory(slug)).filter(isIphoneProduct);
+const fallbackName = slug
+  .split('-')
+  .filter(Boolean)
+  .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
+  .join(' ');
+const category = (await getCategoryBySlug(slug)) || {
+  slug,
+  name: fallbackName || 'Categoria',
+  description: products.length ? `Productos disponibles en ${fallbackName}.` : 'Categoria del catalogo.',
+  image: products[0]?.mainImage || '/og-image.svg',
+};
+---
+
+<BaseLayout title={category.name} description={category.description} image={category.image}>
+  <section class="section">
+    <div class="container">
+      <div class="mb-8 overflow-hidden rounded-[var(--radius-lg)] bg-ink text-white">
+        <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <div class="p-8 sm:p-10">
+            <p class="eyebrow text-accent">Categoria</p>
+            <h1 class="mt-3 text-4xl font-black sm:text-5xl">{category.name}</h1>
+            <p class="mt-4 max-w-xl leading-7 text-white/75">{category.description}</p>
+          </div>
+          <img class="h-full min-h-80 w-full object-cover" src={category.image} alt={category.name} />
+        </div>
+      </div>
+      <ProductGrid products={products} />
+    </div>
+  </section>
+</BaseLayout>

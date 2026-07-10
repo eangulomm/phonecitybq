@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/shared/PageIntro.astro';
+import { getSiteConfig } from '../services/siteConfig';
+const config = await getSiteConfig();
+---
+
+<BaseLayout title="Preguntas frecuentes" description="Respuestas sobre compras, garantia, pagos y envios.">
+  <section class="section">
+    <div class="container max-w-4xl">
+      <PageIntro eyebrow="Ayuda" title="Preguntas frecuentes" description="Respuestas sobre compra asistida, garantia, pagos y disponibilidad." />
+      <div class="mt-8 grid gap-3">
+        {config.faq.map((item) => (
+          <details class="surface rounded-2xl p-5" open>
+            <summary class="cursor-pointer font-black">{item.q}</summary>
+            <p class="mt-3 leading-7 text-muted">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/shared/PageIntro.astro';
+import ProductGrid from '../../components/product/ProductGrid.astro';
+import { getProducts } from '../../services/products';
+import { isIphoneProduct } from '../../utils/productFilters';
+
+const products = (await getProducts()).filter(isIphoneProduct);
+---
+
+<BaseLayout title="Buscar iPhone" description="Busca iPhone por modelo, capacidad o condicion.">
+  <section class="section">
+    <div class="container" data-search-page>
+      <PageIntro eyebrow="Busqueda" title="Buscar iPhone" description="Encuentra modelos disponibles por nombre, capacidad o condicion." />
+      <form class="mt-8 flex max-w-2xl gap-3" action="/buscar">
+        <label class="sr-only" for="search-page-input">Buscar productos</label>
+        <input id="search-page-input" class="min-h-12 flex-1 rounded-full border border-line bg-surface px-5 outline-none" name="q" data-search-page-input placeholder="Buscar por producto o marca" />
+        <button class="btn-primary">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          Buscar
+        </button>
+      </form>
+      <p class="mt-4 text-sm text-muted" data-search-summary></p>
+      <div class="mt-10"><ProductGrid products={products} /></div>
+    </div>
+  </section>
+</BaseLayout>

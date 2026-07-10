@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/shared/PageIntro.astro';
+---
+
+<BaseLayout title="Politicas de venta" description="Condiciones generales para pagos, garantias, cambios y envios.">
+  <section class="section">
+    <div class="container max-w-4xl">
+      <PageIntro eyebrow="Transparencia comercial" title="Politicas de venta" description="Condiciones generales para pagos, garantias, cambios y envios." />
+      <div class="mt-8 grid gap-4">
+        {[
+          ['Disponibilidad', 'Los productos mock muestran stock referencial. En produccion debe confirmarse disponibilidad desde el backend.'],
+          ['Pagos', 'La tienda esta preparada para pagos asistidos por WhatsApp y futura integracion con pasarela o financiacion.'],
+          ['Garantia', 'Cada producto debe indicar condicion, tiempo de garantia y cobertura antes de cerrar la compra.'],
+          ['Envios', 'Los tiempos y costos dependen de ciudad, transportadora y valor asegurado.'],
+        ].map(([title, text]) => (
+          <article class="surface rounded-2xl p-6">
+            <h2 class="text-xl font-black">{title}</h2>
+            <p class="mt-3 leading-7 text-muted">{text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,70 @@
+---
+import '../styles/global.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import Header from '../components/shared/Header.astro';
+import Footer from '../components/shared/Footer.astro';
+import WhatsAppChat from '../components/shared/WhatsAppChat.astro';
+import { getSiteConfig } from '../services/siteConfig';
+import { getProducts } from '../services/products';
+import { absoluteUrl } from '../utils/format';
+import { isIphoneProduct } from '../utils/productFilters';
+
+const [config, headerProducts] = await Promise.all([getSiteConfig(), getProducts()]);
+const {
+  title = config.name,
+  description = config.tagline,
+  image = config.hero.image,
+  canonical = Astro.url.pathname,
+  robots = 'index,follow',
+  jsonLd = null,
+} = Astro.props;
+
+const pageTitle = title === config.name ? title : `${title} | ${config.name}`;
+const canonicalUrl = absoluteUrl(config.url, canonical);
+const imageUrl = absoluteUrl(config.url, image);
+const organizationLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: config.name,
+  url: config.url,
+  email: config.email,
+  address: config.address,
+  sameAs: Object.values(config.social),
+};
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content={config.colors.brand} />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body class="min-h-screen antialiased">
+    <Header config={config} products={headerProducts.filter(isIphoneProduct)} />
+    <main>
+      <slot />
+    </main>
+    <Footer config={config} />
+    <WhatsAppChat config={config} />
+    <script>
+      import '../scripts/main.js';
+    </script>
+  </body>
+</html>

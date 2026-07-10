@@ -1,0 +1,198 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/shared/PageIntro.astro';
+
+const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
+---
+
+<BaseLayout title="Administrador de productos" description="Panel para crear y editar productos de la tienda." robots="noindex,nofollow">
+  <section class="section">
+    <div class="container" data-admin data-api-url={apiUrl}>
+      <PageIntro
+        eyebrow="Gestion de tienda"
+        title="Productos de la tienda"
+        description="Crea productos, cambia precios, actualiza fotos y controla que articulos se muestran en el catalogo."
+      />
+
+      <div class="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-bold leading-6 text-emerald-900" data-admin-message>
+        Listo para trabajar. Primero carga tus productos o crea uno nuevo.
+      </div>
+
+      <div class="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
+        <aside class="grid gap-6">
+          <section class="surface rounded-[var(--radius-lg)] p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="eyebrow">Foto principal</p>
+                <h2 class="mt-2 text-2xl font-black">Subir imagen</h2>
+              </div>
+              <span class="rounded-full bg-brand/10 px-3 py-1 text-xs font-black text-brand">Celular o PC</span>
+            </div>
+
+            <label class="mt-5 grid gap-2 text-sm font-bold" for="admin-image-file">
+              Selecciona una imagen
+              <input id="admin-image-file" class="rounded-2xl border border-line bg-paper px-4 py-3 font-normal" type="file" accept="image/*" multiple data-admin-file />
+            </label>
+
+            <button class="btn-primary mt-4 w-full" type="button" data-upload-image>
+              <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+              Subir imagen
+            </button>
+
+            <img class="mt-5 hidden aspect-square w-full rounded-2xl border border-line bg-paper object-contain" alt="Preview de imagen subida" data-image-preview />
+
+            <label class="mt-5 grid gap-2 text-sm font-bold" for="admin-main-image">
+              Imagen usada por el producto
+              <textarea id="admin-main-image" class="min-h-24 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="mainImage" placeholder="Aqui aparecera la imagen subida"></textarea>
+            </label>
+
+          </section>
+
+          <section class="surface rounded-[var(--radius-lg)] p-6">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <p class="eyebrow">Lista</p>
+                <h2 class="mt-2 text-2xl font-black">Productos</h2>
+              </div>
+              <button class="btn-secondary px-4" type="button" data-load-products>
+                <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                Cargar
+              </button>
+            </div>
+            <div class="mt-5 grid max-h-[520px] gap-3 overflow-auto pr-1" data-admin-products>
+              <p class="rounded-2xl border border-dashed border-line p-5 text-sm text-muted">Presiona Cargar para ver tus productos y editar uno.</p>
+            </div>
+          </section>
+        </aside>
+
+        <section class="surface rounded-[var(--radius-lg)] p-6">
+          <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div>
+              <p class="eyebrow">Formulario</p>
+              <h2 class="mt-2 text-2xl font-black">Datos del producto</h2>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button class="btn-secondary px-4" type="button" data-reset-form>
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                Nuevo
+              </button>
+              <button class="btn-secondary px-4" type="button" data-update-product disabled>
+                <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+                Actualizar
+              </button>
+              <button class="btn-primary px-4" type="button" data-create-product>
+                <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
+                Crear producto
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-5 rounded-2xl border border-dashed border-line bg-paper p-4 text-sm leading-6 text-muted" data-selected-product-status>
+            No hay producto seleccionado. Elige uno de la lista para editarlo o presiona Nuevo para crear otro.
+          </div>
+
+          <form class="mt-6 grid gap-5" data-product-form>
+            <input type="hidden" data-field="id" />
+            <input type="hidden" data-field="slug" />
+            <input type="hidden" data-field="brand" value="Apple" />
+            <input type="hidden" data-field="sku" />
+            <input type="hidden" data-field="condition" value="Nuevo" />
+            <input type="hidden" data-field="isNew" />
+            <input type="hidden" data-field="bestSeller" />
+
+            <div class="grid gap-4 md:grid-cols-2">
+              <label class="grid gap-2 text-sm font-bold">
+                Nombre
+                <input class="rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="name" placeholder="iPhone 15 Pro 256GB" required />
+              </label>
+              <label class="grid gap-2 text-sm font-bold">
+                Tipo de producto
+                <select class="rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="category">
+                  <option value="iphone-nuevo">iPhone nuevo</option>
+                  <option value="iphone-seminuevo">iPhone seminuevo</option>
+                </select>
+              </label>
+              <label class="grid gap-2 text-sm font-bold">
+                Precio
+                <input class="rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="price" data-money inputmode="numeric" placeholder="4.890.000" />
+              </label>
+              <label class="grid gap-2 text-sm font-bold">
+                Precio anterior
+                <input class="rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="oldPrice" data-money inputmode="numeric" placeholder="5.290.000" />
+              </label>
+              <label class="grid gap-2 text-sm font-bold">
+                Descuento %
+                <input class="rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="discount" type="number" min="0" max="100" step="1" placeholder="8" />
+              </label>
+              <label class="grid gap-2 text-sm font-bold">
+                Stock
+                <input class="rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="stock" type="number" min="0" step="1" placeholder="5" />
+              </label>
+            </div>
+
+            <label class="grid gap-2 text-sm font-bold">
+              Galeria de imagenes
+              <textarea class="min-h-24 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="images" placeholder="Si pegas varias imagenes, puedes poner una por linea. El sistema agrega las comas."></textarea>
+            </label>
+
+            <label class="grid gap-2 text-sm font-bold">
+              Descripcion
+              <textarea class="min-h-32 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="description" placeholder="Descripcion comercial del producto"></textarea>
+            </label>
+
+            <div class="grid gap-4 md:grid-cols-2">
+              <label class="grid gap-2 text-sm font-bold">
+                Caracteristicas
+                <textarea class="min-h-36 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="specs" placeholder="Pantalla: 6.1 OLED&#10;Memoria: 256GB&#10;Bateria: 90%"></textarea>
+              </label>
+              <label class="grid gap-2 text-sm font-bold">
+                Palabras clave
+                <textarea class="min-h-36 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="tags" placeholder="Se generan automaticamente desde los datos del producto"></textarea>
+                <span class="text-xs font-normal leading-5 text-muted">Se actualizan solas con el nombre, tipo y caracteristicas. Tambien puedes agregar una palabra manual separada por coma.</span>
+              </label>
+            </div>
+
+            <div class="grid gap-3 rounded-2xl border border-line bg-paper p-4 sm:grid-cols-2 lg:grid-cols-4">
+              <label class="flex items-center gap-3 text-sm font-bold"><input type="checkbox" data-field="featured" /> Destacado</label>
+              <label class="flex items-center gap-3 text-sm font-bold"><input type="checkbox" data-field="active" checked /> Activo</label>
+            </div>
+
+            <div class="flex justify-end">
+              <button class="btn-secondary text-red-600" type="button" data-delete-product>
+                <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
+                Ocultar producto
+              </button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <section class="surface mt-6 hidden rounded-[var(--radius-lg)] p-6" data-admin-details>
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <p class="eyebrow">Detalles</p>
+            <h2 class="mt-2 text-2xl font-black">Informacion tecnica</h2>
+          </div>
+          <button class="btn-secondary px-4" type="button" data-clear-output>
+            <i class="fa-solid fa-broom" aria-hidden="true"></i>
+            Limpiar
+          </button>
+        </div>
+        <pre class="mt-5 max-h-96 overflow-auto rounded-2xl bg-ink p-5 text-sm leading-6 text-paper" data-admin-output>Listo para trabajar.</pre>
+      </section>
+
+      <div class="fixed inset-0 z-[100] hidden place-items-center bg-white/70 backdrop-blur-sm" data-admin-loading>
+        <div class="grid w-[min(92vw,360px)] justify-items-center gap-4 rounded-3xl border border-line bg-surface p-8 text-center shadow-lift">
+          <i class="fa-solid fa-spinner animate-spin text-4xl text-brand" aria-hidden="true"></i>
+          <div>
+            <p class="text-lg font-black" data-admin-loading-title>Procesando</p>
+            <p class="mt-1 text-sm text-muted" data-admin-loading-text>Espera un momento, estamos guardando los cambios.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    import '../scripts/admin.js';
+  </script>
+</BaseLayout>

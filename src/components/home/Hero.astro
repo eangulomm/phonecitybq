@@ -1,0 +1,30 @@
+---
+const { config } = Astro.props;
+---
+
+<section class="overflow-hidden bg-surface">
+  <div class="container grid min-h-[calc(100vh-5rem)] items-center gap-10 py-12 lg:grid-cols-[0.95fr_1.05fr]">
+    <div class="max-w-2xl">
+      <p class="eyebrow">Phone City BQ</p>
+      <h1 class="mt-5 text-5xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">{config.hero.title}</h1>
+      <p class="mt-6 max-w-xl text-lg leading-8 text-muted">{config.hero.subtitle}</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="/productos" class="btn-primary">{config.hero.cta}</a>
+        <a href={`https://wa.me/${config.whatsapp}`} class="btn-secondary" target="_blank" rel="noreferrer">{config.hero.secondaryCta}</a>
+      </div>
+      <div class="mt-10 grid grid-cols-3 gap-4 text-sm">
+        <div><strong class="block text-2xl">Nuevos</strong><span class="text-muted">sellados</span></div>
+        <div><strong class="block text-2xl">Seminuevos</strong><span class="text-muted">revisados</span></div>
+        <div><strong class="block text-2xl">WhatsApp</strong><span class="text-muted">asesoria</span></div>
+      </div>
+    </div>
+    <div class="relative">
+      <div class="absolute inset-6 rounded-[2rem] bg-brand/25 blur-3xl"></div>
+      <img class="relative aspect-[4/3] w-full rounded-[2rem] object-cover shadow-lift" src={config.hero.image} alt="Dispositivos tecnologicos premium en una tienda moderna" fetchpriority="high" />
+      <div class="surface absolute bottom-5 left-5 max-w-[260px] rounded-2xl p-4">
+        <p class="text-xs font-black uppercase tracking-wide text-brand">Asesoria directa</p>
+        <p class="mt-1 text-sm text-muted">Elige modelo, capacidad y condicion con ayuda por WhatsApp.</p>
+      </div>
+    </div>
+  </div>
+</section>
