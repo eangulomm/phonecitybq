@@ -23,6 +23,15 @@ export function whatsappProductUrl(phone, product) {
 
 export function absoluteUrl(siteUrl, path = '') {
   if (/^https?:\/\//.test(path)) return path;
-  const normalizedPath = String(path || '').replace(/^\//, '');
-  return new URL(normalizedPath, siteUrl.endsWith('/') ? siteUrl : `${siteUrl}/`).toString();
+  const baseUrl = siteUrl.endsWith('/') ? siteUrl : `${siteUrl}/`;
+  const basePath = new URL(baseUrl).pathname.replace(/\/$/, '');
+  let normalizedPath = String(path || '').replace(/^\//, '');
+
+  if (basePath && normalizedPath === basePath.replace(/^\//, '')) {
+    normalizedPath = '';
+  } else if (basePath && normalizedPath.startsWith(`${basePath.replace(/^\//, '')}/`)) {
+    normalizedPath = normalizedPath.slice(basePath.length);
+  }
+
+  return new URL(normalizedPath, baseUrl).toString();
 }
