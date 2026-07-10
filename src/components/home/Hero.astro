@@ -1,4 +1,6 @@
 ---
+import { sitePath } from '../../utils/format';
+
 const { config } = Astro.props;
 ---
 
@@ -9,7 +11,7 @@ const { config } = Astro.props;
       <h1 class="mt-5 text-5xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">{config.hero.title}</h1>
       <p class="mt-6 max-w-xl text-lg leading-8 text-muted">{config.hero.subtitle}</p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-        <a href="/productos" class="btn-primary">{config.hero.cta}</a>
+        <a href={sitePath('/productos')} class="btn-primary">{config.hero.cta}</a>
         <a href={`https://wa.me/${config.whatsapp}`} class="btn-secondary" target="_blank" rel="noreferrer">{config.hero.secondaryCta}</a>
       </div>
       <div class="mt-10 grid grid-cols-3 gap-4 text-sm">

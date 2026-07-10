@@ -6,7 +6,7 @@ import Footer from '../components/shared/Footer.astro';
 import WhatsAppChat from '../components/shared/WhatsAppChat.astro';
 import { getSiteConfig } from '../services/siteConfig';
 import { getProducts } from '../services/products';
-import { absoluteUrl } from '../utils/format';
+import { absoluteUrl, sitePath } from '../utils/format';
 import { isIphoneProduct } from '../utils/productFilters';
 
 const [config, headerProducts] = await Promise.all([getSiteConfig(), getProducts()]);
@@ -39,7 +39,7 @@ const organizationLd = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content={config.colors.brand} />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="manifest" href={sitePath('/site.webmanifest')} />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />

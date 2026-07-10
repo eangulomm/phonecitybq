@@ -1,4 +1,6 @@
 ---
+import { sitePath } from '../../utils/format';
+
 const { config } = Astro.props;
 ---
 
@@ -15,7 +17,7 @@ const { config } = Astro.props;
       <p class="eyebrow">Asesoria activa</p>
       <h2 class="mt-3 text-3xl font-black">{config.banners[0].title}</h2>
       <p class="mt-4 leading-7 text-muted">{config.banners[0].text}</p>
-      <a href={config.banners[0].href} class="btn-primary mt-6">
+      <a href={sitePath(config.banners[0].href)} class="btn-primary mt-6">
         <i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i>
         Ver iPhone
       </a>

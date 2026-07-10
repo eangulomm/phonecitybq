@@ -5,6 +5,7 @@ import { getCategories, getCategoryBySlug } from '../../services/categories';
 import { getProducts, getProductsByCategory } from '../../services/products';
 import { normalizeSlug } from '../../services/mappers';
 import { isIphoneProduct } from '../../utils/productFilters';
+import { sitePath } from '../../utils/format';
 
 export async function getStaticPaths() {
   const [categories, products] = await Promise.all([getCategories(), getProducts()]);
@@ -32,7 +33,7 @@ const category = (await getCategoryBySlug(slug)) || {
   slug,
   name: fallbackName || 'Categoria',
   description: products.length ? `Productos disponibles en ${fallbackName}.` : 'Categoria del catalogo.',
-  image: products[0]?.mainImage || '/og-image.svg',
+  image: products[0]?.mainImage || sitePath('/og-image.svg'),
 };
 ---
 

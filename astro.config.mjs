@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  site: 'https://demo.tutienda.com',
+  site: 'https://eangulomm.github.io',
+  base: '/phonecitybq',
   integrations: [tailwind({ applyBaseStyles: false })],
 });

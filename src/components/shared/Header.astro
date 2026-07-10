@@ -1,4 +1,6 @@
 ---
+import { sitePath } from '../../utils/format';
+
 const { config, products = [] } = Astro.props;
 const searchProducts = products.map((product) => ({
   id: product.id,
@@ -7,15 +9,15 @@ const searchProducts = products.map((product) => ({
   category: product.category,
   price: product.price,
   image: product.mainImage,
-  url: `/productos/${product.slug}`,
+  url: sitePath(`/productos/${product.slug}`),
 }));
 ---
 
 <header class="sticky top-0 z-50 border-b border-line/80 bg-surface/88 backdrop-blur-xl">
   <div class="container flex h-20 items-center justify-between gap-4">
-    <a href="/" class="flex items-center gap-3 font-black" aria-label={`Ir al inicio de ${config.name}`}>
+    <a href={sitePath('/')} class="flex items-center gap-3 font-black" aria-label={`Ir al inicio de ${config.name}`}>
       {config.logoImage ? (
-        <img class="h-12 w-12 rounded-2xl object-cover shadow-soft" src={config.logoImage} alt={config.name} />
+        <img class="h-12 w-12 rounded-2xl object-cover shadow-soft" src={sitePath(config.logoImage)} alt={config.name} />
       ) : (
         <span class="grid h-11 w-11 place-items-center rounded-2xl bg-ink text-sm text-paper shadow-soft">P</span>
       )}
@@ -23,11 +25,11 @@ const searchProducts = products.map((product) => ({
     </a>
 
     <nav class="hidden items-center gap-7 text-sm font-bold text-muted lg:flex" aria-label="Menu principal">
-      {config.nav.map((item) => <a class="transition hover:text-ink" href={item.href}>{item.label}</a>)}
+      {config.nav.map((item) => <a class="transition hover:text-ink" href={sitePath(item.href)}>{item.label}</a>)}
     </nav>
 
     <div class="flex items-center gap-2">
-      <form action="/buscar" class="relative hidden min-w-64 items-center rounded-full border border-line bg-paper px-4 py-2 md:flex" data-search-suggest data-products={JSON.stringify(searchProducts)}>
+      <form action={sitePath('/buscar')} class="relative hidden min-w-64 items-center rounded-full border border-line bg-paper px-4 py-2 md:flex" data-search-suggest data-products={JSON.stringify(searchProducts)}>
         <label class="sr-only" for="site-search">Buscar productos</label>
         <input
           id="site-search"
@@ -57,7 +59,7 @@ const searchProducts = products.map((product) => ({
 
   <div id="mobile-menu" class="mobile-menu hidden border-t border-line bg-surface lg:hidden">
     <div class="container grid gap-2 py-4">
-      <form action="/buscar" class="relative flex items-center rounded-full border border-line bg-paper px-4 py-2" data-search-suggest data-products={JSON.stringify(searchProducts)}>
+      <form action={sitePath('/buscar')} class="relative flex items-center rounded-full border border-line bg-paper px-4 py-2" data-search-suggest data-products={JSON.stringify(searchProducts)}>
         <label class="sr-only" for="mobile-site-search">Buscar productos</label>
         <input id="mobile-site-search" name="q" class="w-full bg-transparent text-sm outline-none" placeholder="Buscar iPhone" autocomplete="off" data-search-input aria-expanded="false" aria-controls="mobile-site-search-results" />
         <button class="grid h-9 w-9 place-items-center rounded-full text-brand" type="submit" aria-label="Buscar">
@@ -69,7 +71,7 @@ const searchProducts = products.map((product) => ({
           data-search-results
         ></div>
       </form>
-      {config.nav.map((item) => <a class="rounded-xl px-3 py-3 font-bold hover:bg-paper" href={item.href}>{item.label}</a>)}
+      {config.nav.map((item) => <a class="rounded-xl px-3 py-3 font-bold hover:bg-paper" href={sitePath(item.href)}>{item.label}</a>)}
     </div>
   </div>
 </header>

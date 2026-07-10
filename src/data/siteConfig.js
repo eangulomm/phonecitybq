@@ -3,7 +3,7 @@ export const siteConfig = {
   tagline: 'La tecnologia que te mueve',
   logoText: 'PHONE CITY BQ',
   logoImage: '/phonecity-bq-logo.png',
-  url: 'https://demo.tutienda.com',
+  url: 'https://eangulomm.github.io/phonecitybq/',
   whatsapp: '573245741763',
   phoneDisplay: '324 574 1763',
   email: '',

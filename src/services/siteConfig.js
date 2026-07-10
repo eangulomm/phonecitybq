@@ -6,6 +6,7 @@ const brandConfig = {
   tagline: siteConfig.tagline,
   logoText: siteConfig.logoText,
   logoImage: siteConfig.logoImage,
+  url: siteConfig.url,
   whatsapp: siteConfig.whatsapp,
   phoneDisplay: siteConfig.phoneDisplay,
   email: siteConfig.email,

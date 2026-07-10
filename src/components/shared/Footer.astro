@@ -1,4 +1,6 @@
 ---
+import { sitePath } from '../../utils/format';
+
 const { config } = Astro.props;
 const phoneLabel = config.phoneDisplay || `+${config.whatsapp}`;
 ---
@@ -7,7 +9,7 @@ const phoneLabel = config.phoneDisplay || `+${config.whatsapp}`;
   <div class="container grid gap-10 py-14 md:grid-cols-[1.15fr_0.8fr_1fr_1.1fr]">
     <div>
       <div class="mb-5 flex items-center gap-4">
-        {config.logoImage && <img class="h-16 w-16 rounded-2xl object-cover" src={config.logoImage} alt={config.name} />}
+        {config.logoImage && <img class="h-16 w-16 rounded-2xl object-cover" src={sitePath(config.logoImage)} alt={config.name} />}
         <span class="max-w-52 text-2xl font-black uppercase leading-tight tracking-wide sm:text-3xl">{config.logoText}</span>
       </div>
       <p class="max-w-sm text-sm leading-7 text-paper/70">{config.tagline}. Especialistas en iPhone nuevos y seminuevos.</p>
@@ -16,9 +18,9 @@ const phoneLabel = config.phoneDisplay || `+${config.whatsapp}`;
     <div>
       <h2 class="mb-4 text-sm font-black uppercase tracking-wide">Comprar</h2>
       <div class="grid gap-3 text-sm text-paper/72">
-        <a href="/productos">Catalogo</a>
-        <a href="/#nuevos">Nuevos</a>
-        <a href="/#seminuevos">Seminuevos</a>
+        <a href={sitePath('/productos')}>Catalogo</a>
+        <a href={sitePath('/#nuevos')}>Nuevos</a>
+        <a href={sitePath('/#seminuevos')}>Seminuevos</a>
       </div>
     </div>
 
@@ -33,7 +35,7 @@ const phoneLabel = config.phoneDisplay || `+${config.whatsapp}`;
           <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
           @phonecitybq
         </a>
-        <a href="/preguntas-frecuentes">Preguntas frecuentes</a>
+        <a href={sitePath('/preguntas-frecuentes')}>Preguntas frecuentes</a>
       </div>
     </div>
 

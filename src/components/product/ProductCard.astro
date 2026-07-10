@@ -1,8 +1,8 @@
 ---
-import { formatPrice, whatsappProductUrl } from '../../utils/format';
+import { formatPrice, sitePath, whatsappProductUrl } from '../../utils/format';
 
 const { product, whatsapp } = Astro.props;
-const productUrl = `/productos/${product.slug}`;
+const productUrl = sitePath(`/productos/${product.slug}`);
 const fallbackImage =
   'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 600 600%22%3E%3Crect width=%22600%22 height=%22600%22 fill=%22%23f1f5f9%22/%3E%3Ctext x=%22300%22 y=%22305%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2228%22 fill=%22%2364758b%22%3EImagen no disponible%3C/text%3E%3C/svg%3E';
 ---

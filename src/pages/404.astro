@@ -1,13 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageIntro from '../components/shared/PageIntro.astro';
+import { sitePath } from '../utils/format';
 ---
 
 <BaseLayout title="Pagina no encontrada" description="La pagina solicitada no existe.">
   <section class="section">
     <div class="container max-w-2xl text-center">
       <PageIntro eyebrow="Error 404" title="No encontramos esta pagina" description="Puede que el producto haya cambiado de URL o que el enlace este incompleto." />
-      <a href="/productos" class="btn-primary mt-8">Volver al catalogo</a>
+      <a href={sitePath('/productos')} class="btn-primary mt-8">Volver al catalogo</a>
     </div>
   </section>
 </BaseLayout>

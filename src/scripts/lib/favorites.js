@@ -1,6 +1,8 @@
 import { escapeHtml, money } from './dom';
 import { emitStoreChange, getFavorites, saveFavorites } from './store';
 
+const BASE_PATH = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+
 export function toggleFavorite(id) {
   const favorites = getFavorites();
   saveFavorites(favorites.includes(id) ? favorites.filter((item) => item !== id) : [...favorites, id]);
@@ -27,6 +29,11 @@ function renderFavoriteCard(product) {
       <img class="product-image mx-auto w-full max-w-[240px]" src="${escapeHtml(product.mainImage)}" alt="${escapeHtml(product.name)}" loading="lazy" decoding="async" />
       <h2 class="mt-4 font-black">${escapeHtml(product.name)}</h2>
       <p class="mt-2 text-muted">${money.format(product.price)}</p>
-      <a class="btn-primary mt-4 w-full" href="/productos/${escapeHtml(product.slug)}">Ver producto</a>
+      <a class="btn-primary mt-4 w-full" href="${pathWithBase(`/productos/${escapeHtml(product.slug)}`)}">Ver producto</a>
     </article>`;
+}
+
+function pathWithBase(path) {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return `${BASE_PATH}${normalizedPath}` || '/';
 }

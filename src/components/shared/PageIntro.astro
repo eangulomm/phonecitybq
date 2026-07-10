@@ -1,4 +1,6 @@
 ---
+import { sitePath } from '../../utils/format';
+
 const { eyebrow, title, description, actions = [] } = Astro.props;
 ---
 
@@ -12,7 +14,7 @@ const { eyebrow, title, description, actions = [] } = Astro.props;
     actions.length > 0 && (
       <div class="flex flex-wrap gap-3">
         {actions.map((action) => (
-          <a class={action.variant === 'primary' ? 'btn-primary' : 'btn-secondary'} href={action.href}>
+          <a class={action.variant === 'primary' ? 'btn-primary' : 'btn-secondary'} href={sitePath(action.href)}>
             {action.label}
           </a>
         ))}

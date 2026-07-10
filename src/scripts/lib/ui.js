@@ -1,4 +1,5 @@
 const CHAT_CLOSED_KEY = 'premium_chat_closed';
+const BASE_PATH = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const money = new Intl.NumberFormat('es-CO', {
   style: 'currency',
   currency: 'COP',
@@ -84,7 +85,7 @@ export function initSearchSuggestions() {
       if (!matches.length) {
         results.innerHTML = `
           <div class="px-3 py-3 text-sm text-muted">No encontramos coincidencias.</div>
-          <a class="block rounded-xl px-3 py-3 text-sm font-black text-brand hover:bg-paper" href="/buscar?q=${encodeURIComponent(input.value)}">Ver busqueda completa</a>
+          <a class="block rounded-xl px-3 py-3 text-sm font-black text-brand hover:bg-paper" href="${pathWithBase(`/buscar?q=${encodeURIComponent(input.value)}`)}">Ver busqueda completa</a>
         `;
         open();
         return;
@@ -163,4 +164,9 @@ function escapeHtml(value) {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#039;');
+}
+
+function pathWithBase(path) {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return `${BASE_PATH}${normalizedPath}` || '/';
 }
