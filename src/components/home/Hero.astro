@@ -8,13 +8,13 @@ const { config } = Astro.props;
   <div class="container grid min-h-[calc(100vh-5rem)] items-center gap-10 py-12 lg:grid-cols-[0.95fr_1.05fr]">
     <div class="max-w-2xl">
       <p class="eyebrow">Phone City BQ</p>
-      <h1 class="mt-5 text-5xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">{config.hero.title}</h1>
+      <h1 class="mt-5 text-[2.65rem] font-black leading-[1.04] sm:text-6xl lg:text-7xl">{config.hero.title}</h1>
       <p class="mt-6 max-w-xl text-lg leading-8 text-muted">{config.hero.subtitle}</p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">
         <a href={sitePath('/productos')} class="btn-primary">{config.hero.cta}</a>
         <a href={`https://wa.me/${config.whatsapp}`} class="btn-secondary" target="_blank" rel="noreferrer">{config.hero.secondaryCta}</a>
       </div>
-      <div class="mt-10 grid grid-cols-3 gap-4 text-sm">
+      <div class="mt-10 grid gap-4 text-sm sm:grid-cols-3">
         <div><strong class="block text-2xl">Nuevos</strong><span class="text-muted">sellados</span></div>
         <div><strong class="block text-2xl">Seminuevos</strong><span class="text-muted">revisados</span></div>
         <div><strong class="block text-2xl">WhatsApp</strong><span class="text-muted">asesoria</span></div>

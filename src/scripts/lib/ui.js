@@ -29,7 +29,9 @@ export function initChat() {
     localStorage.setItem(CHAT_CLOSED_KEY, open ? 'false' : 'true');
   };
 
-  setOpen(localStorage.getItem(CHAT_CLOSED_KEY) !== 'true');
+  const storedState = localStorage.getItem(CHAT_CLOSED_KEY);
+  const startsClosedOnMobile = window.matchMedia('(max-width: 640px)').matches && storedState == null;
+  setOpen(storedState === 'false' || (!startsClosedOnMobile && storedState !== 'true'));
   closeButton.addEventListener('click', () => setOpen(false));
   openButton.addEventListener('click', () => setOpen(true));
 }

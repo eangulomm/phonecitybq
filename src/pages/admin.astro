@@ -5,9 +5,9 @@ import PageIntro from '../components/shared/PageIntro.astro';
 const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
 ---
 
-<BaseLayout title="Administrador de productos" description="Panel para crear y editar productos de la tienda." robots="noindex,nofollow">
+<BaseLayout title="Administrador de productos" description="Panel para crear y editar productos de la tienda." robots="noindex,nofollow" showChat={false}>
   <section class="section">
-    <div class="container" data-admin data-api-url={apiUrl}>
+    <div class="container min-w-0" data-admin data-api-url={apiUrl}>
       <PageIntro
         eyebrow="Gestion de tienda"
         title="Productos de la tienda"
@@ -18,9 +18,9 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
         Listo para trabajar. Primero carga tus productos o crea uno nuevo.
       </div>
 
-      <div class="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
-        <aside class="grid gap-6">
-          <section class="surface rounded-[var(--radius-lg)] p-6">
+      <div class="grid min-w-0 gap-6 xl:grid-cols-[0.8fr_1.2fr]">
+        <aside class="grid min-w-0 gap-6">
+          <section class="surface min-w-0 rounded-[var(--radius-lg)] p-4 sm:p-6">
             <div class="flex items-start justify-between gap-4">
               <div>
                 <p class="eyebrow">Foto principal</p>
@@ -48,7 +48,7 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
 
           </section>
 
-          <section class="surface rounded-[var(--radius-lg)] p-6">
+          <section class="surface min-w-0 rounded-[var(--radius-lg)] p-4 sm:p-6">
             <div class="flex items-center justify-between gap-4">
               <div>
                 <p class="eyebrow">Lista</p>
@@ -65,13 +65,13 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
           </section>
         </aside>
 
-        <section class="surface rounded-[var(--radius-lg)] p-6">
+        <section class="surface min-w-0 rounded-[var(--radius-lg)] p-4 sm:p-6">
           <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div>
               <p class="eyebrow">Formulario</p>
               <h2 class="mt-2 text-2xl font-black">Datos del producto</h2>
             </div>
-            <div class="flex flex-wrap gap-2">
+            <div class="grid gap-2 sm:flex sm:flex-wrap">
               <button class="btn-secondary px-4" type="button" data-reset-form>
                 <i class="fa-solid fa-plus" aria-hidden="true"></i>
                 Nuevo
@@ -167,7 +167,7 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
         </section>
       </div>
 
-      <section class="surface mt-6 hidden rounded-[var(--radius-lg)] p-6" data-admin-details>
+      <section class="surface mt-6 hidden min-w-0 rounded-[var(--radius-lg)] p-4 sm:p-6" data-admin-details>
         <div class="flex items-center justify-between gap-4">
           <div>
             <p class="eyebrow">Detalles</p>

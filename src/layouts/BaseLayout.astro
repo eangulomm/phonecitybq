@@ -17,6 +17,7 @@ const {
   canonical = Astro.url.pathname,
   robots = 'index,follow',
   jsonLd = null,
+  showChat = true,
 } = Astro.props;
 
 const pageTitle = title === config.name ? title : `${title} | ${config.name}`;
@@ -62,7 +63,7 @@ const organizationLd = {
       <slot />
     </main>
     <Footer config={config} />
-    <WhatsAppChat config={config} />
+    {showChat && <WhatsAppChat config={config} />}
     <script>
       import '../scripts/main.js';
     </script>
