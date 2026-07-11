@@ -1,10 +1,16 @@
 # Seguridad del sistema
 
-Este proyecto permite que el cliente use el panel desde celular o computador entrando a `/admin`.
+Este proyecto permite que el cliente use el panel desde celular o computador entrando a una ruta privada no enlazada desde la tienda.
+
+Ruta privada actual:
+
+```text
+/akfycbx-pcity-bq-9m4q2z/
+```
 
 ## Como funciona el acceso
 
-1. El cliente entra a `/admin`.
+1. El cliente entra a la ruta privada.
 2. Escribe su clave privada.
 3. Apps Script valida la clave usando `Script properties`.
 4. Si la clave es correcta, Apps Script crea una sesion temporal de 6 horas.

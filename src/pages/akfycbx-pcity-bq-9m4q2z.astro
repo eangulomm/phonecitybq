@@ -5,7 +5,7 @@ import PageIntro from '../components/shared/PageIntro.astro';
 const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
 ---
 
-<BaseLayout title="Administrador de productos" description="Panel para crear y editar productos de la tienda." robots="noindex,nofollow" showChat={false}>
+<BaseLayout title="Administrador de productos" description="Panel privado para crear y editar productos de la tienda." robots="noindex,nofollow" showChat={false}>
   <section class="section">
     {false ? (
       <div class="container">
@@ -225,6 +225,8 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
         <pre class="mt-5 max-h-96 overflow-auto rounded-2xl bg-ink p-5 text-sm leading-6 text-paper" data-admin-output>Listo para trabajar.</pre>
       </section>
 
+      </div>
+
       <div class="fixed inset-0 z-[100] hidden place-items-center bg-white/70 backdrop-blur-sm" data-admin-loading>
         <div class="grid w-[min(92vw,360px)] justify-items-center gap-4 rounded-3xl border border-line bg-surface p-8 text-center shadow-lift">
           <i class="fa-solid fa-spinner animate-spin text-4xl text-brand" aria-hidden="true"></i>
@@ -233,7 +235,6 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
             <p class="mt-1 text-sm text-muted" data-admin-loading-text>Espera un momento, estamos guardando los cambios.</p>
           </div>
         </div>
-      </div>
       </div>
     </div>
     )}

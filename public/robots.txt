@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /akfycbx-pcity-bq-9m4q2z/
 
 Sitemap: https://eangulomm.github.io/phonecitybq/sitemap.xml

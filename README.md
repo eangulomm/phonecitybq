@@ -12,7 +12,13 @@ $env:ASTRO_TELEMETRY_DISABLED='1'; npm.cmd run build
 
 ## Seguridad del admin
 
-El panel `/admin` se puede usar desde celular o computador con una clave privada. La clave no queda guardada en el frontend: se valida en Apps Script y luego se crea una sesion temporal.
+El panel privado se puede usar desde celular o computador con una clave privada. La clave no queda guardada en el frontend: se valida en Apps Script y luego se crea una sesion temporal.
+
+Ruta privada actual:
+
+```text
+/akfycbx-pcity-bq-9m4q2z/
+```
 
 Configura en Apps Script:
 

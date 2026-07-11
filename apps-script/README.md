@@ -68,7 +68,7 @@ ADMIN_PASSWORD=clave_privada_del_cliente
 
 Ruta en Apps Script: `Project Settings > Script properties`.
 
-Esta clave permite entrar a `/admin` desde celular o computador. Apps Script la valida y crea una sesion temporal para proteger la lista privada de productos, subida de imagenes, creacion, actualizacion y ocultado de productos.
+Esta clave permite entrar al panel privado desde celular o computador. Apps Script la valida y crea una sesion temporal para proteger la lista privada de productos, subida de imagenes, creacion, actualizacion y ocultado de productos.
 
 ## 5. Conectar el frontend
 
