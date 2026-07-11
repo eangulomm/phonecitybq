@@ -51,14 +51,13 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
 
       <div class="hidden" data-admin-panel>
 
-      <div class="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-bold leading-6 text-emerald-900" data-admin-message>
-        Listo para trabajar. Primero carga tus productos o crea uno nuevo.
-      </div>
-
-      <div class="mb-6 flex justify-end">
-        <button class="btn-secondary px-4" type="button" data-admin-logout>
+      <div class="sticky top-3 z-40 mb-6 rounded-3xl border border-emerald-200 bg-white/95 p-3 shadow-soft backdrop-blur sm:flex sm:items-center sm:justify-between sm:gap-4">
+        <div class="rounded-2xl bg-emerald-50 p-4 text-sm font-bold leading-6 text-emerald-900 sm:flex-1" data-admin-message>
+          Sesión activa. Primero carga tus productos o crea uno nuevo.
+        </div>
+        <button class="btn-secondary mt-3 w-full px-4 text-red-600 sm:mt-0 sm:w-auto" type="button" data-admin-logout>
           <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
-          Salir
+          Cerrar sesión
         </button>
       </div>
 

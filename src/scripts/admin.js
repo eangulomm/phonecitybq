@@ -152,9 +152,16 @@ if (root) {
 
   function logoutAdmin(messageText = 'Sesión cerrada. Ingresa la clave para volver al panel.') {
     adminSessionToken = '';
+    loadedProducts = [];
     localStorage.removeItem(ADMIN_SESSION_KEY);
+    resetForm(false);
+    if (productList) {
+      productList.innerHTML = '<p class="rounded-2xl border border-dashed border-line p-5 text-sm text-muted">Inicia sesión para cargar tus productos.</p>';
+    }
+    writeOutput('Sesión cerrada.');
     syncAuthState();
     showLoginError(messageText, 'info');
+    loginPanel?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   function syncAuthState() {
