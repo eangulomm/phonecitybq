@@ -12,10 +12,11 @@ const config = await getSiteConfig();
   robots="noindex,follow"
 >
   <section class="section" data-live-product-detail>
-    <div class="container max-w-2xl text-center">
-      <p class="eyebrow">Cargando producto</p>
-      <h1 class="mt-3 text-4xl font-black sm:text-5xl">Un momento</h1>
-      <p class="mt-5 leading-8 text-muted">Estamos consultando la información actualizada.</p>
+    <div class="container grid min-h-[45vh] place-items-center">
+      <div class="grid justify-items-center gap-4 rounded-3xl border border-line bg-paper px-8 py-7 text-center shadow-soft">
+        <i class="fa-solid fa-spinner animate-spin text-3xl text-brand" aria-hidden="true"></i>
+        <p class="text-lg font-black">Cargando...</p>
+      </div>
     </div>
   </section>
 </BaseLayout>
