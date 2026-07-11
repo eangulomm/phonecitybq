@@ -274,7 +274,7 @@ if (root) {
       discount: numberValue('discount'),
       images: splitList(field('images').value || field('mainImage').value),
       mainImage: field('mainImage').value.trim(),
-      description: field('description').value.trim(),
+      description: '',
       specs,
       stock: numberValue('stock'),
       condition: getConditionFromCategory(),
@@ -465,9 +465,13 @@ if (root) {
       }
     }
 
+    let plainIndex = 1;
     return text.split('\n').reduce((specs, line) => {
+      line = line.trim();
+      if (!line) return specs;
       const [key, ...rest] = line.split(':');
       if (key?.trim() && rest.length) specs[key.trim()] = rest.join(':').trim();
+      else specs[`Detalle ${plainIndex++}`] = line;
       return specs;
     }, {});
   }
@@ -475,7 +479,7 @@ if (root) {
   function formatSpecs(specs) {
     if (!specs || typeof specs !== 'object' || Array.isArray(specs)) return '';
     return Object.entries(specs)
-      .map(([key, value]) => `${key}: ${value}`)
+      .map(([key, value]) => String(key).startsWith('Detalle ') ? value : `${key}: ${value}`)
       .join('\n');
   }
 

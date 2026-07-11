@@ -239,7 +239,7 @@ function renderProductDetail(product) {
             ${product.oldPrice ? `<p class="text-lg text-muted line-through">${money.format(product.oldPrice)}</p>` : ''}
             ${product.discount > 0 ? `<span class="rounded-full bg-brand/10 px-3 py-1 text-sm font-black text-brand">Ahorra ${product.discount}%</span>` : ''}
           </div>
-          <p class="mt-6 leading-8 text-muted">${escapeHtml(product.description)}</p>
+          ${product.description ? `<p class="mt-6 leading-8 text-muted">${escapeHtml(product.description)}</p>` : ''}
           <dl class="mt-6 grid gap-3 rounded-[var(--radius-md)] border border-line bg-surface p-5 text-sm sm:grid-cols-2">
             <div><dt class="font-black">Disponibilidad</dt><dd class="text-muted">${product.stock > 0 ? `${product.stock} disponible${product.stock === 1 ? '' : 's'}` : 'Agotado'}</dd></div>
             <div><dt class="font-black">Tipo</dt><dd class="text-muted">${productType}</dd></div>
@@ -260,7 +260,7 @@ function renderProductDetail(product) {
             <details class="surface rounded-2xl p-5" open>
               <summary class="cursor-pointer font-black">Especificaciones técnicas</summary>
               <div class="mt-4 grid gap-2 text-sm text-muted">
-                ${specs.map(([key, value]) => `<p><strong class="text-ink">${escapeHtml(key)}:</strong> ${escapeHtml(value)}</p>`).join('')}
+                ${specs.map(([key, value]) => String(key).startsWith('Detalle ') ? `<p>${escapeHtml(value)}</p>` : `<p><strong class="text-ink">${escapeHtml(key)}:</strong> ${escapeHtml(value)}</p>`).join('')}
               </div>
             </details>
             <details class="surface rounded-2xl p-5">

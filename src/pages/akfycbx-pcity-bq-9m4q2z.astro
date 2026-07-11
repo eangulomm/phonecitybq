@@ -140,6 +140,7 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
             <input type="hidden" data-field="brand" value="Apple" />
             <input type="hidden" data-field="sku" />
             <input type="hidden" data-field="condition" value="Nuevo" />
+            <input type="hidden" data-field="description" />
             <input type="hidden" data-field="isNew" />
             <input type="hidden" data-field="bestSeller" />
 
@@ -178,17 +179,13 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
               <textarea class="min-h-24 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="images" placeholder="Si pegas varias imágenes, puedes poner una por línea. El sistema agrega las comas."></textarea>
             </label>
 
-            <label class="grid gap-2 text-sm font-bold">
-              Descripcion
-              <textarea class="min-h-32 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="description" placeholder="Descripcion comercial del producto"></textarea>
-            </label>
-
-            <div class="grid gap-4 md:grid-cols-2">
+            <div class="grid gap-4">
               <label class="grid gap-2 text-sm font-bold">
-                Caracteristicas
-                <textarea class="min-h-36 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="specs" placeholder="Pantalla: 6.1 OLED&#10;Memoria: 256GB&#10;Batería: 90%"></textarea>
+                Especificaciones técnicas
+                <textarea class="min-h-44 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="specs" placeholder="Pantalla: 6.1 OLED&#10;Memoria: 256GB&#10;Batería: 90%&#10;Estado: Seminuevo en excelente condición"></textarea>
+                <span class="text-xs font-normal leading-5 text-muted">Escribe una especificación por línea. Puedes usar “Pantalla: 6.1 OLED” o texto simple.</span>
               </label>
-              <label class="grid gap-2 text-sm font-bold">
+              <label class="hidden">
                 Palabras clave
                 <textarea class="min-h-36 rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" data-field="tags" placeholder="Se generan automaticamente desde los datos del producto"></textarea>
                 <span class="text-xs font-normal leading-5 text-muted">Se actualizan solas con el nombre, tipo y características. También puedes agregar una palabra manual separada por coma.</span>
