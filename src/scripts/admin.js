@@ -1,12 +1,16 @@
 const root = document.querySelector('[data-admin]');
+const ADMIN_SESSION_KEY = 'phonecity_admin_session_v1';
 
 if (root) {
   const apiUrl = root.dataset.apiUrl;
-  const adminToken = root.dataset.adminToken || '';
   const output = root.querySelector('[data-admin-output]');
   const productList = root.querySelector('[data-admin-products]');
   const preview = root.querySelector('[data-image-preview]');
   const fileInput = root.querySelector('[data-admin-file]');
+  const loginPanel = root.querySelector('[data-admin-login]');
+  const adminPanel = root.querySelector('[data-admin-panel]');
+  const loginForm = root.querySelector('[data-admin-login-form]');
+  const passwordInput = root.querySelector('[data-admin-password]');
   const selectedStatus = root.querySelector('[data-selected-product-status]');
   const updateButton = root.querySelector('[data-update-product]');
   const message = root.querySelector('[data-admin-message]');
@@ -16,6 +20,7 @@ if (root) {
   const loadingText = root.querySelector('[data-admin-loading-text]');
   let loadedProducts = [];
   let manualTags = [];
+  let adminSessionToken = readStoredSession();
 
   const field = (name) => root.querySelector(`[data-field="${name}"]`);
   const fields = [
@@ -41,9 +46,24 @@ if (root) {
     'active',
   ];
 
+  syncAuthState();
+
+  loginForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    try {
+      await withLoading('Entrando', 'Estamos verificando la clave.', loginAdmin);
+    } catch (error) {
+      showLoginError(error.message);
+    }
+  });
+
   root.addEventListener('click', async (event) => {
     const target = event.target;
     try {
+      if (target.closest('[data-admin-logout]')) {
+        logoutAdmin();
+        return;
+      }
       if (target.closest('[data-upload-image]')) await withLoading('Subiendo imagen', 'Estamos preparando la foto del producto.', uploadImage);
       if (target.closest('[data-load-products]')) await withLoading('Cargando productos', 'Estamos trayendo tu lista de productos.', loadProducts);
       if (target.closest('[data-create-product]')) await withLoading('Creando producto', 'Estamos guardando el producto nuevo.', () => saveProduct('createProduct'));
@@ -61,6 +81,7 @@ if (root) {
         productButton.classList.add('border-brand', 'ring-2', 'ring-brand/30');
       }
     } catch (error) {
+      if (isUnauthorized(error)) logoutAdmin('Tu sesión venció. Entra otra vez para continuar.');
       showMessage(error.message, 'error');
       writeOutput({ ok: false, error: { message: error.message } });
     }
@@ -107,6 +128,55 @@ if (root) {
     updateGeneratedTags();
   });
 
+  async function loginAdmin() {
+    assertApiUrl(false);
+    const password = passwordInput?.value.trim();
+    if (!password) throw new Error('Escribe la clave de administrador.');
+
+    const result = await publicRequest('adminLogin', { password });
+    if (!result.ok || !result.data?.sessionToken) throw new Error(result.error?.message || 'No se pudo iniciar sesión.');
+
+    adminSessionToken = result.data.sessionToken;
+    localStorage.setItem(
+      ADMIN_SESSION_KEY,
+      JSON.stringify({
+        sessionToken: result.data.sessionToken,
+        expiresAt: result.data.expiresAt,
+      }),
+    );
+    if (passwordInput) passwordInput.value = '';
+    syncAuthState();
+    showMessage('Acceso confirmado. Ya puedes administrar productos.', 'success');
+    await loadProducts();
+  }
+
+  function logoutAdmin(messageText = 'Sesión cerrada. Ingresa la clave para volver al panel.') {
+    adminSessionToken = '';
+    localStorage.removeItem(ADMIN_SESSION_KEY);
+    syncAuthState();
+    showLoginError(messageText, 'info');
+  }
+
+  function syncAuthState() {
+    const isLoggedIn = Boolean(adminSessionToken);
+    loginPanel?.classList.toggle('hidden', isLoggedIn);
+    adminPanel?.classList.toggle('hidden', !isLoggedIn);
+  }
+
+  function showLoginError(text, type = 'error') {
+    if (!loginPanel) return;
+    let alert = loginPanel.querySelector('[data-admin-login-message]');
+    if (!alert) {
+      alert = document.createElement('div');
+      alert.dataset.adminLoginMessage = '';
+      loginPanel.append(alert);
+    }
+    alert.textContent = text;
+    alert.className = 'mt-4 rounded-2xl border p-4 text-sm font-bold leading-6';
+    if (type === 'info') alert.classList.add('border-sky-200', 'bg-sky-50', 'text-sky-900');
+    else alert.classList.add('border-red-200', 'bg-red-50', 'text-red-800');
+  }
+
   async function uploadImage() {
     assertApiUrl();
     const files = [...(fileInput.files || [])];
@@ -140,8 +210,7 @@ if (root) {
     assertApiUrl();
     showMessage('Cargando productos...');
     writeOutput('Cargando productos...');
-    let result = await getResource('adminProducts');
-    if (!result.ok) result = await getResource('products');
+    const result = await getResource('adminProducts');
     if (!result.ok) throw new Error(result.error?.message || 'No se pudieron cargar productos.');
 
     loadedProducts = Array.isArray(result.data) ? result.data : [];
@@ -287,17 +356,28 @@ if (root) {
   }
 
   async function request(resource, body) {
+    assertApiUrl();
     const response = await fetch(`${apiUrl}?resource=${encodeURIComponent(resource)}`, {
       method: 'POST',
-      body: JSON.stringify({ ...body, adminToken }),
+      body: JSON.stringify({ ...body, adminSessionToken }),
+    });
+    return parseResponse(response);
+  }
+
+  async function publicRequest(resource, body) {
+    assertApiUrl(false);
+    const response = await fetch(`${apiUrl}?resource=${encodeURIComponent(resource)}`, {
+      method: 'POST',
+      body: JSON.stringify(body),
     });
     return parseResponse(response);
   }
 
   async function getResource(resource) {
+    assertApiUrl();
     const url = new URL(apiUrl);
     url.searchParams.set('resource', resource);
-    url.searchParams.set('adminToken', adminToken);
+    url.searchParams.set('adminSessionToken', adminSessionToken);
     const response = await fetch(url.toString());
     return parseResponse(response);
   }
@@ -324,9 +404,9 @@ if (root) {
     });
   }
 
-  function assertApiUrl() {
+  function assertApiUrl(requireSession = true) {
     if (!apiUrl) throw new Error('Falta PUBLIC_APPS_SCRIPT_API_URL en .env.');
-    if (!adminToken) throw new Error('Falta PUBLIC_ADMIN_TOKEN. Configura el token privado antes de usar el panel.');
+    if (requireSession && !adminSessionToken) throw new Error('Primero inicia sesión para usar el panel.');
   }
 
   async function parseResponse(response) {
@@ -478,6 +558,25 @@ if (root) {
       .split(/[\n,]+/)
       .map((item) => item.trim())
       .filter(Boolean);
+  }
+
+  function readStoredSession() {
+    try {
+      const session = JSON.parse(localStorage.getItem(ADMIN_SESSION_KEY) || '{}');
+      if (!session.sessionToken) return '';
+      if (session.expiresAt && new Date(session.expiresAt).getTime() <= Date.now()) {
+        localStorage.removeItem(ADMIN_SESSION_KEY);
+        return '';
+      }
+      return session.sessionToken;
+    } catch {
+      localStorage.removeItem(ADMIN_SESSION_KEY);
+      return '';
+    }
+  }
+
+  function isUnauthorized(error) {
+    return /unauthorized|autorizado|sesion|sesión|password|clave/i.test(String(error?.message || ''));
   }
 
   function slugify(value) {

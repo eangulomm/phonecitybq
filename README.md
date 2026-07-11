@@ -12,14 +12,15 @@ $env:ASTRO_TELEMETRY_DISABLED='1'; npm.cmd run build
 
 ## Seguridad del admin
 
-El panel `/admin` queda desactivado por defecto en builds publicos. Para usarlo en local necesitas:
+El panel `/admin` se puede usar desde celular o computador con una clave privada. La clave no queda guardada en el frontend: se valida en Apps Script y luego se crea una sesion temporal.
 
-```powershell
-$env:PUBLIC_ENABLE_ADMIN='true'
-$env:PUBLIC_ADMIN_TOKEN='EL_TOKEN_PRIVADO_DE_APPS_SCRIPT'
+Configura en Apps Script:
+
+```text
+ADMIN_PASSWORD=CLAVE_PRIVADA_DEL_CLIENTE
 ```
 
-Tambien debes configurar `ADMIN_TOKEN` en `Script properties` dentro de Apps Script. Lee [SECURITY.md](./SECURITY.md) antes de entregar o vender una tienda.
+Ruta: `Project Settings > Script properties`. Lee [SECURITY.md](./SECURITY.md) antes de entregar o vender una tienda.
 
 ## Datos
 

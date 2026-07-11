@@ -1,68 +1,62 @@
 # Seguridad del sistema
 
-Este proyecto separa la tienda publica del panel de administracion. La tienda puede vivir en GitHub Pages, pero el panel no debe publicarse abierto para clientes finales.
+Este proyecto permite que el cliente use el panel desde celular o computador entrando a `/admin`.
 
-## Regla principal
+## Como funciona el acceso
 
-Nunca publiques un panel de administracion funcional dentro del sitio publico. En GitHub Pages, `/admin` queda desactivado por defecto.
+1. El cliente entra a `/admin`.
+2. Escribe su clave privada.
+3. Apps Script valida la clave usando `Script properties`.
+4. Si la clave es correcta, Apps Script crea una sesion temporal de 6 horas.
+5. Las acciones privadas usan esa sesion temporal para crear, editar, ocultar productos y subir imagenes.
 
-## Apps Script
+La clave no queda escrita dentro del frontend ni dentro de GitHub Pages.
 
-Las acciones privadas del backend exigen un token:
+## Configuracion obligatoria en Apps Script
 
-- `GET ?resource=adminProducts`
+En Apps Script ve a `Project Settings > Script properties` y agrega:
+
+```text
+ADMIN_PASSWORD=una_clave_larga_para_el_cliente
+```
+
+Recomendacion: usa una clave larga de 12 o mas caracteres, mezclando letras, numeros y simbolos.
+
+Tambien puedes configurar `ADMIN_TOKEN` para integraciones privadas, pero para clientes normales usa `ADMIN_PASSWORD`.
+
+## Endpoints publicos
+
+Estos endpoints pueden usarse sin clave:
+
+- `GET ?resource=products`
+- `GET ?resource=product&slug=...`
+- `GET ?resource=categories`
+- `GET ?resource=siteConfig`
+- `GET ?resource=search&q=...`
+- `POST ?resource=lead`
+- `POST ?resource=newsletter`
+- `POST ?resource=order`
+- `POST ?resource=adminLogin`
+
+## Endpoints privados
+
+Estos endpoints requieren `adminSessionToken` valido:
+
+- `GET ?resource=adminProducts&adminSessionToken=...`
 - `POST ?resource=uploadImage`
 - `POST ?resource=createProduct`
 - `POST ?resource=updateProduct`
 - `POST ?resource=deleteProduct`
 
-Configura el token en Apps Script:
-
-1. Abre el proyecto de Apps Script.
-2. Ve a `Project Settings`.
-3. En `Script properties`, agrega:
-
-```text
-ADMIN_TOKEN=un_token_largo_y_dificil_de_adivinar
-```
-
-Usa un valor largo, por ejemplo de 40 a 64 caracteres mezclando letras, numeros y simbolos.
-
-## Frontend publico
-
-Para publicar la tienda:
-
-```powershell
-$env:ASTRO_TELEMETRY_DISABLED='1'; $env:PUBLIC_DATA_SOURCE='remote'; $env:PUBLIC_APPS_SCRIPT_API_URL='https://script.google.com/macros/s/TU_DEPLOYMENT_ID/exec'; npm.cmd run build
-```
-
-No configures `PUBLIC_ENABLE_ADMIN=true` en GitHub Pages ni en un hosting publico.
-
-## Panel privado
-
-Para usar el admin solo en tu computador o en un entorno privado:
-
-```powershell
-$env:ASTRO_TELEMETRY_DISABLED='1'
-$env:PUBLIC_DATA_SOURCE='remote'
-$env:PUBLIC_APPS_SCRIPT_API_URL='https://script.google.com/macros/s/TU_DEPLOYMENT_ID/exec'
-$env:PUBLIC_ENABLE_ADMIN='true'
-$env:PUBLIC_ADMIN_TOKEN='el_mismo_token_de_apps_script'
-npm.cmd run dev -- --host 127.0.0.1 --port 4321
-```
-
-Luego entra a:
-
-```text
-http://127.0.0.1:4321/phonecitybq/admin
-```
-
-## Recomendaciones para venderlo
+## Entrega a clientes
 
 - Crea un Google Sheet y un Apps Script por cada cliente.
-- Usa un `ADMIN_TOKEN` diferente por cliente.
-- No subas `.env` a GitHub.
-- No reutilices tokens entre tiendas.
-- Si un cliente pierde acceso, cambia `ADMIN_TOKEN` en Apps Script y en su entorno privado.
-- Mantén el Web App de Apps Script como `Execute as: Me` y `Who has access: Anyone`, pero protege toda accion de administracion con token.
-- Para un producto mas robusto, crea un panel admin separado con login real en un backend propio o con Firebase/Supabase/Auth0.
+- Usa una clave diferente por cliente.
+- No subas claves a GitHub.
+- Si el cliente pierde la clave, cambia `ADMIN_PASSWORD` en Apps Script.
+- Si alguien deja de trabajar con la tienda, cambia `ADMIN_PASSWORD`.
+- Mantén el Web App como `Execute as: Me` y `Who has access: Anyone`, porque las acciones sensibles se protegen con sesion.
+
+## Limitaciones
+
+Esta seguridad es suficiente para un panel sencillo de tienda pequeña. Para venderlo como producto mas grande, con usuarios por empleado, roles, auditoria y recuperacion de contraseña, conviene migrar el admin a un backend con autenticacion real como Firebase, Supabase, Auth0 o un servidor propio.

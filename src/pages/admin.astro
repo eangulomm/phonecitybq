@@ -3,13 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageIntro from '../components/shared/PageIntro.astro';
 
 const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
-const adminEnabled = import.meta.env.PUBLIC_ENABLE_ADMIN === 'true';
-const adminToken = import.meta.env.PUBLIC_ADMIN_TOKEN || '';
 ---
 
 <BaseLayout title="Administrador de productos" description="Panel para crear y editar productos de la tienda." robots="noindex,nofollow" showChat={false}>
   <section class="section">
-    {!adminEnabled ? (
+    {false ? (
       <div class="container">
         <PageIntro
           eyebrow="Acceso privado"
@@ -21,15 +19,47 @@ const adminToken = import.meta.env.PUBLIC_ADMIN_TOKEN || '';
         </div>
       </div>
     ) : (
-    <div class="container min-w-0" data-admin data-api-url={apiUrl} data-admin-token={adminToken}>
+    <div class="container min-w-0" data-admin data-api-url={apiUrl}>
       <PageIntro
         eyebrow="Gestion de tienda"
         title="Productos de la tienda"
         description="Crea productos, cambia precios, actualiza fotos y controla qué artículos se muestran en el catálogo."
       />
 
+      <section class="surface mx-auto mt-8 max-w-xl rounded-[var(--radius-lg)] p-5 sm:p-7" data-admin-login>
+        <div class="flex items-start gap-4">
+          <div class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-brand text-white">
+            <i class="fa-solid fa-lock" aria-hidden="true"></i>
+          </div>
+          <div>
+            <p class="eyebrow">Acceso privado</p>
+            <h2 class="mt-2 text-2xl font-black">Entrar al panel</h2>
+            <p class="mt-2 text-sm leading-6 text-muted">Escribe la clave de administrador para gestionar productos desde tu celular o computador.</p>
+          </div>
+        </div>
+        <form class="mt-6 grid gap-4" data-admin-login-form>
+          <label class="grid gap-2 text-sm font-bold">
+            Clave de administrador
+            <input class="rounded-2xl border border-line bg-paper px-4 py-3 font-normal outline-none" type="password" autocomplete="current-password" data-admin-password placeholder="Clave privada" required />
+          </label>
+          <button class="btn-primary w-full" type="submit">
+            <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+            Entrar
+          </button>
+        </form>
+      </section>
+
+      <div class="hidden" data-admin-panel>
+
       <div class="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-bold leading-6 text-emerald-900" data-admin-message>
         Listo para trabajar. Primero carga tus productos o crea uno nuevo.
+      </div>
+
+      <div class="mb-6 flex justify-end">
+        <button class="btn-secondary px-4" type="button" data-admin-logout>
+          <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+          Salir
+        </button>
       </div>
 
       <div class="grid min-w-0 gap-6 xl:grid-cols-[0.8fr_1.2fr]">
@@ -204,12 +234,11 @@ const adminToken = import.meta.env.PUBLIC_ADMIN_TOKEN || '';
           </div>
         </div>
       </div>
+      </div>
     </div>
     )}
   </section>
-  {adminEnabled && (
-    <script>
-      import '../scripts/admin.js';
-    </script>
-  )}
+  <script>
+    import '../scripts/admin.js';
+  </script>
 </BaseLayout>

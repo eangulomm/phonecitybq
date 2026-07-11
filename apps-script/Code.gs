@@ -7,6 +7,7 @@
 
 var IMAGE_FOLDER_NAME = 'ecommerce_product_images';
 var MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+var ADMIN_SESSION_TTL_SECONDS = 6 * 60 * 60;
 
 var SHEET_HEADERS = {
   Products: [
@@ -47,7 +48,8 @@ var ADMIN_GET_RESOURCES = {
 var ALLOWED_POST_RESOURCES = {
   order: true,
   lead: true,
-  newsletter: true
+  newsletter: true,
+  adminLogin: true
 };
 
 var ADMIN_POST_RESOURCES = {
@@ -265,6 +267,7 @@ function doPost(e) {
     if (resource === 'order') data = createOrder(body);
     if (resource === 'lead') data = createLead(body);
     if (resource === 'newsletter') data = createNewsletter(body);
+    if (resource === 'adminLogin') data = adminLogin(body);
     if (resource === 'uploadImage') data = uploadImageToDrive(body.base64Data, body.fileName, body.mimeType);
     if (resource === 'createProduct') data = createProduct(body);
     if (resource === 'updateProduct') data = updateProduct(body);
@@ -278,15 +281,60 @@ function doPost(e) {
 
 function requireAdmin(e, body) {
   var expectedToken = String(PropertiesService.getScriptProperties().getProperty('ADMIN_TOKEN') || '').trim();
-  if (!expectedToken) throw publicError('ADMIN_TOKEN_NOT_CONFIGURED', 'Admin access is not configured.');
+  var hasStaticToken = expectedToken !== '';
 
   var providedToken = '';
   if (body && body.adminToken) providedToken = String(body.adminToken || '').trim();
   if (!providedToken && e && e.parameter && e.parameter.adminToken) providedToken = String(e.parameter.adminToken || '').trim();
+  if (hasStaticToken && constantTimeEquals(providedToken, expectedToken)) return true;
 
-  if (!constantTimeEquals(providedToken, expectedToken)) {
-    throw publicError('UNAUTHORIZED', 'Admin access is not authorized.');
-  }
+  var sessionToken = '';
+  if (body && body.adminSessionToken) sessionToken = String(body.adminSessionToken || '').trim();
+  if (!sessionToken && e && e.parameter && e.parameter.adminSessionToken) sessionToken = String(e.parameter.adminSessionToken || '').trim();
+  if (isValidAdminSession(sessionToken)) return true;
+
+  throw publicError('UNAUTHORIZED', 'Admin access is not authorized.');
+}
+
+function adminLogin(body) {
+  body = body || {};
+  var expectedPassword = String(PropertiesService.getScriptProperties().getProperty('ADMIN_PASSWORD') || '').trim();
+  var fallbackToken = String(PropertiesService.getScriptProperties().getProperty('ADMIN_TOKEN') || '').trim();
+  var expected = expectedPassword || fallbackToken;
+  if (!expected) throw publicError('ADMIN_PASSWORD_NOT_CONFIGURED', 'Admin password is not configured.');
+
+  var password = String(body.password || '').trim();
+  if (!constantTimeEquals(password, expected)) throw publicError('UNAUTHORIZED', 'Password is incorrect.');
+
+  var sessionToken = generateSecureToken();
+  var expiresAt = new Date(Date.now() + ADMIN_SESSION_TTL_SECONDS * 1000).toISOString();
+  CacheService.getScriptCache().put(adminSessionKey(sessionToken), expiresAt, ADMIN_SESSION_TTL_SECONDS);
+  return {
+    sessionToken: sessionToken,
+    expiresAt: expiresAt
+  };
+}
+
+function isValidAdminSession(sessionToken) {
+  sessionToken = String(sessionToken || '').trim();
+  if (!sessionToken || sessionToken.length < 40) return false;
+  return Boolean(CacheService.getScriptCache().get(adminSessionKey(sessionToken)));
+}
+
+function adminSessionKey(sessionToken) {
+  return 'admin_session_' + hashText(sessionToken);
+}
+
+function hashText(value) {
+  var bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, String(value || ''));
+  return bytes.map(function(byte) {
+    var normalized = byte < 0 ? byte + 256 : byte;
+    return ('0' + normalized.toString(16)).slice(-2);
+  }).join('');
+}
+
+function generateSecureToken() {
+  return Utilities.getUuid() + '-' + Utilities.getUuid() + '-' + Math.random().toString(36).substring(2);
 }
 
 function constantTimeEquals(a, b) {
