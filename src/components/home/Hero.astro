@@ -2,107 +2,96 @@
 import { sitePath } from '../../utils/format';
 
 const { config } = Astro.props;
+const whatsappUrl = `https://wa.me/${config.whatsapp}`;
 const heroSlides = [
   {
+    image: '/images/phonecity-hero-apple.png',
+    imageAlt: 'Equipos Apple destacados de Phone City BQ',
     eyebrow: 'Phone City BQ',
-    title: config.hero.title,
-    subtitle: config.hero.subtitle,
-    cta: config.hero.cta,
-    href: '/productos',
-    secondaryCta: config.hero.secondaryCta,
-    secondaryHref: `https://wa.me/${config.whatsapp}`,
-    image: config.hero.image,
-    imageAlt: 'iPhone premium en exhibición para compra directa',
-    stats: [
-      { value: 'Nuevos', label: 'sellados' },
-      { value: 'Seminuevos', label: 'revisados' },
-      { value: 'WhatsApp', label: 'asesoría' },
+    title: 'Lo mejor de Apple',
+    text: 'iPhone, iPad y MacBook con atención directa.',
+    actions: [
+      {
+        label: 'Escríbenos por WhatsApp',
+        href: whatsappUrl,
+        icon: 'fa-brands fa-whatsapp',
+        variant: 'primary',
+      },
     ],
   },
   {
-    eyebrow: 'Modelos nuevos',
-    title: 'Estrena iPhone con asesoría directa',
-    subtitle: 'Consulta disponibilidad real, precio y opciones de compra antes de decidir.',
-    cta: 'Ver iPhone nuevos',
-    href: '/#nuevos',
-    secondaryCta: 'Comprar por WhatsApp',
-    secondaryHref: `https://wa.me/${config.whatsapp}`,
-    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1400&q=85',
-    imageAlt: 'iPhone nuevo con acabado premium',
-    stats: [
-      { value: 'Sellados', label: 'listos' },
-      { value: 'Apple', label: 'original' },
-      { value: 'Entrega', label: 'coordinada' },
-    ],
-  },
-  {
-    eyebrow: 'Seminuevos revisados',
-    title: 'Compra un iPhone seminuevo con más confianza',
-    subtitle: 'Revisa fotos, condición, capacidad y disponibilidad con acompañamiento por WhatsApp.',
-    cta: 'Ver seminuevos',
-    href: '/#seminuevos',
-    secondaryCta: 'Hablar por WhatsApp',
-    secondaryHref: `https://wa.me/${config.whatsapp}`,
-    image: 'https://images.unsplash.com/photo-1695048065040-ffcd6f681a5a?auto=format&fit=crop&w=1400&q=85',
-    imageAlt: 'iPhone seminuevo revisado antes de la venta',
-    stats: [
-      { value: 'Revisados', label: 'con fotos' },
-      { value: 'Estado', label: 'claro' },
-      { value: 'Soporte', label: 'directo' },
+    image: '/images/phonecity-hero-social.png',
+    imageAlt: 'Tecnología Apple y accesorios Phone City BQ',
+    eyebrow: 'Comunidad',
+    title: 'Tecnología que te mueve',
+    text: 'Síguenos para ver novedades, disponibilidad y promociones.',
+    actions: [
+      {
+        label: 'Instagram',
+        href: config.social?.instagram || '#',
+        icon: 'fa-brands fa-instagram',
+        variant: 'primary',
+      },
+      {
+        label: 'TikTok',
+        href: config.social?.tiktok || '#',
+        icon: 'fa-brands fa-tiktok',
+        variant: 'secondary',
+      },
     ],
   },
 ];
 ---
 
 <section class="hero-carousel overflow-hidden bg-surface" data-hero-carousel aria-roledescription="carousel" aria-label="Promociones principales">
-  <div class="container relative min-h-[calc(100vh-5rem)] py-10 sm:py-12">
-    <div class="relative overflow-hidden rounded-[2rem] border border-line bg-paper shadow-lift">
+  <div class="container py-6 sm:py-8">
+    <div class="relative overflow-hidden rounded-[2rem] border border-line bg-brand shadow-lift">
       <div class="hero-track flex transition-transform duration-700 ease-out" data-hero-track>
         {heroSlides.map((slide, index) => (
-          <article class="hero-slide grid min-w-full items-center gap-8 p-6 sm:p-8 lg:grid-cols-[0.95fr_1.05fr] lg:p-10" aria-hidden={index === 0 ? 'false' : 'true'}>
-            <div class="max-w-2xl">
-              <p class="eyebrow">{slide.eyebrow}</p>
-              <h1 class="mt-5 text-[2.5rem] font-black leading-[1.04] sm:text-6xl lg:text-7xl">{slide.title}</h1>
-              <p class="mt-6 max-w-xl text-lg leading-8 text-muted">{slide.subtitle}</p>
-              <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a href={sitePath(slide.href)} class="btn-primary">{slide.cta}</a>
-                <a href={slide.secondaryHref} class="btn-secondary" target={slide.secondaryHref.startsWith('http') ? '_blank' : undefined} rel={slide.secondaryHref.startsWith('http') ? 'noreferrer' : undefined}>
-                  {slide.secondaryCta}
-                </a>
-              </div>
-              <div class="mt-10 grid gap-4 text-sm sm:grid-cols-3">
-                {slide.stats.map((stat) => (
-                  <div>
-                    <strong class="block text-2xl">{stat.value}</strong>
-                    <span class="text-muted">{stat.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div class="relative min-h-[330px] sm:min-h-[440px]">
-              <img class="absolute inset-0 h-full w-full rounded-[1.5rem] object-cover shadow-lift" src={slide.image} alt={slide.imageAlt} fetchpriority={index === 0 ? 'high' : undefined} loading={index === 0 ? undefined : 'lazy'} />
-              <div class="absolute inset-0 rounded-[1.5rem] bg-gradient-to-t from-black/55 via-black/10 to-transparent"></div>
-              <div class="absolute bottom-5 left-5 max-w-[280px] rounded-2xl border border-white/20 bg-white/90 p-4 shadow-soft backdrop-blur">
-                <p class="text-xs font-black uppercase tracking-wide text-brand">Asesoría directa</p>
-                <p class="mt-1 text-sm text-muted">Elige modelo, capacidad y condición con ayuda por WhatsApp.</p>
+          <article class="hero-slide relative min-w-full overflow-hidden" aria-hidden={index === 0 ? 'false' : 'true'}>
+            <img
+              class="absolute inset-0 h-full w-full object-cover"
+              src={sitePath(slide.image)}
+              alt={slide.imageAlt}
+              fetchpriority={index === 0 ? 'high' : undefined}
+              loading={index === 0 ? undefined : 'lazy'}
+            />
+            <div class="absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-transparent"></div>
+            <div class="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8">
+              <div class="max-w-xl rounded-3xl border border-white/20 bg-black/28 p-4 text-white shadow-lift backdrop-blur-md sm:p-5">
+                <p class="text-xs font-black uppercase tracking-wide text-white/80">{slide.eyebrow}</p>
+                <h1 class="mt-2 text-3xl font-black leading-tight sm:text-5xl">{slide.title}</h1>
+                <p class="mt-2 max-w-md text-sm leading-6 text-white/85 sm:text-base">{slide.text}</p>
+                <div class="mt-4 flex flex-col gap-2 sm:flex-row">
+                  {slide.actions.map((action) => (
+                    <a
+                      href={action.href}
+                      class={action.variant === 'primary' ? 'btn-primary bg-white text-brand hover:bg-white/90' : 'btn-secondary border-white/35 bg-white/10 text-white hover:bg-white/20'}
+                      target={action.href.startsWith('http') ? '_blank' : undefined}
+                      rel={action.href.startsWith('http') ? 'noreferrer' : undefined}
+                    >
+                      <i class={action.icon} aria-hidden="true"></i>
+                      {action.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </article>
         ))}
       </div>
 
-      <div class="absolute bottom-5 right-5 flex items-center gap-2 rounded-full border border-line bg-white/90 p-2 shadow-soft backdrop-blur">
-        <button class="grid h-10 w-10 place-items-center rounded-full border border-line text-ink transition hover:border-brand hover:text-brand" type="button" data-hero-prev aria-label="Slide anterior">
-          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-        </button>
-        <div class="flex items-center gap-2 px-1" data-hero-dots>
-          {heroSlides.map((_, index) => (
-            <button class={`h-2.5 rounded-full transition-all ${index === 0 ? 'w-8 bg-brand' : 'w-2.5 bg-line'}`} type="button" data-hero-dot={index} aria-label={`Ir al slide ${index + 1}`} aria-current={index === 0 ? 'true' : 'false'}></button>
-          ))}
-        </div>
-        <button class="grid h-10 w-10 place-items-center rounded-full border border-line text-ink transition hover:border-brand hover:text-brand" type="button" data-hero-next aria-label="Siguiente slide">
-          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-        </button>
+      <button class="absolute left-4 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-black/25 text-white shadow-soft backdrop-blur transition hover:bg-black/40 sm:grid" type="button" data-hero-prev aria-label="Slide anterior">
+        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+      </button>
+      <button class="absolute right-4 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-black/25 text-white shadow-soft backdrop-blur transition hover:bg-black/40 sm:grid" type="button" data-hero-next aria-label="Siguiente slide">
+        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+      </button>
+
+      <div class="absolute bottom-4 right-4 flex items-center gap-2 rounded-full border border-white/20 bg-black/25 p-2 shadow-soft backdrop-blur" data-hero-dots>
+        {heroSlides.map((_, index) => (
+            <button class={`h-2.5 rounded-full transition-all ${index === 0 ? 'w-8 bg-white' : 'w-2.5 bg-white/45'}`} type="button" data-hero-dot={index} aria-label={`Ir al slide ${index + 1}`} aria-current={index === 0 ? 'true' : 'false'}></button>
+        ))}
       </div>
     </div>
   </div>

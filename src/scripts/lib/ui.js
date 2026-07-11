@@ -76,6 +76,8 @@ export function initHeroCarousel() {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let index = 0;
   let timer;
+  let pointerStartX = 0;
+  let pointerStartY = 0;
 
   const setSlide = (nextIndex) => {
     if (!track || !slides.length) return;
@@ -85,8 +87,8 @@ export function initHeroCarousel() {
     dots.forEach((dot, dotIndex) => {
       dot.classList.toggle('w-8', dotIndex === index);
       dot.classList.toggle('w-2.5', dotIndex !== index);
-      dot.classList.toggle('bg-brand', dotIndex === index);
-      dot.classList.toggle('bg-line', dotIndex !== index);
+      dot.classList.toggle('bg-white', dotIndex === index);
+      dot.classList.toggle('bg-white/45', dotIndex !== index);
       dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false');
     });
   };
@@ -119,6 +121,20 @@ export function initHeroCarousel() {
   carousel.addEventListener('mouseleave', start);
   carousel.addEventListener('focusin', stop);
   carousel.addEventListener('focusout', start);
+  carousel.addEventListener('pointerdown', (event) => {
+    pointerStartX = event.clientX;
+    pointerStartY = event.clientY;
+    stop();
+  });
+  carousel.addEventListener('pointerup', (event) => {
+    const deltaX = event.clientX - pointerStartX;
+    const deltaY = event.clientY - pointerStartY;
+    if (Math.abs(deltaX) > 48 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      setSlide(index + (deltaX < 0 ? 1 : -1));
+    }
+    start();
+  });
+  carousel.addEventListener('pointercancel', start);
   carousel.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowLeft') setSlide(index - 1);
     if (event.key === 'ArrowRight') setSlide(index + 1);

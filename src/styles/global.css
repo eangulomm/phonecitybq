@@ -144,7 +144,8 @@ textarea {
 }
 
 .hero-carousel .hero-slide {
-  min-height: min(720px, calc(100vh - 7.5rem));
+  min-height: clamp(430px, 56vw, 760px);
+  touch-action: pan-y;
 }
 
 .hero-carousel .hero-track {
@@ -153,8 +154,7 @@ textarea {
 
 @media (max-width: 640px) {
   .hero-carousel .hero-slide {
-    min-height: auto;
-    padding-bottom: 5.5rem;
+    min-height: 540px;
   }
 }
 
