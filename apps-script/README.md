@@ -58,6 +58,18 @@ Esto agrega datos demo si las hojas estan vacias.
 5. Deploy.
 6. Copia la URL del Web App.
 
+## 4.1. Configurar token de administrador
+
+Antes de usar el panel privado, configura una propiedad del script:
+
+```text
+ADMIN_TOKEN=un_token_largo_y_privado
+```
+
+Ruta en Apps Script: `Project Settings > Script properties`.
+
+Este token protege la lista privada de productos, subida de imagenes, creacion, actualizacion y ocultado de productos.
+
 ## 5. Conectar el frontend
 
 En el frontend crea o edita `.env`:
@@ -89,12 +101,25 @@ GET ?resource=siteConfig
 GET ?resource=search&q=
 ```
 
-## Endpoints POST
+Endpoint GET privado:
+
+```text
+GET ?resource=adminProducts&adminToken=TU_TOKEN
+```
+
+## Endpoints POST publicos
 
 ```text
 POST ?resource=order
 POST ?resource=lead
 POST ?resource=newsletter
+```
+
+## Endpoints POST privados
+
+Estos requieren `adminToken` dentro del JSON enviado:
+
+```text
 POST ?resource=uploadImage
 POST ?resource=createProduct
 POST ?resource=updateProduct

@@ -28,7 +28,6 @@ var SHEET_HEADERS = {
 
 var ALLOWED_GET_RESOURCES = {
   products: true,
-  adminProducts: true,
   product: true,
   categories: true,
   category: true,
@@ -41,10 +40,17 @@ var ALLOWED_GET_RESOURCES = {
   search: true
 };
 
+var ADMIN_GET_RESOURCES = {
+  adminProducts: true
+};
+
 var ALLOWED_POST_RESOURCES = {
   order: true,
   lead: true,
-  newsletter: true,
+  newsletter: true
+};
+
+var ADMIN_POST_RESOURCES = {
   uploadImage: true,
   createProduct: true,
   updateProduct: true,
@@ -224,7 +230,8 @@ function doGet(e) {
   try {
     setupSheets();
     var resource = sanitizeText((e && e.parameter && e.parameter.resource) || '', 40);
-    if (!ALLOWED_GET_RESOURCES[resource]) return errorResponse('INVALID_RESOURCE', 'GET resource is not allowed.', e);
+    if (!ALLOWED_GET_RESOURCES[resource] && !ADMIN_GET_RESOURCES[resource]) return errorResponse('INVALID_RESOURCE', 'GET resource is not allowed.', e);
+    if (ADMIN_GET_RESOURCES[resource]) requireAdmin(e, null);
 
     var data;
     if (resource === 'products') data = getProducts();
@@ -250,9 +257,10 @@ function doPost(e) {
   try {
     setupSheets();
     var resource = sanitizeText((e && e.parameter && e.parameter.resource) || '', 40);
-    if (!ALLOWED_POST_RESOURCES[resource]) return errorResponse('INVALID_RESOURCE', 'POST resource is not allowed.');
+    if (!ALLOWED_POST_RESOURCES[resource] && !ADMIN_POST_RESOURCES[resource]) return errorResponse('INVALID_RESOURCE', 'POST resource is not allowed.');
 
     var body = parsePostBody(e);
+    if (ADMIN_POST_RESOURCES[resource]) requireAdmin(e, body);
     var data;
     if (resource === 'order') data = createOrder(body);
     if (resource === 'lead') data = createLead(body);
@@ -266,6 +274,30 @@ function doPost(e) {
   } catch (err) {
     return errorResponse(err.code || 'REQUEST_FAILED', err.publicMessage || 'The request could not be completed.');
   }
+}
+
+function requireAdmin(e, body) {
+  var expectedToken = String(PropertiesService.getScriptProperties().getProperty('ADMIN_TOKEN') || '').trim();
+  if (!expectedToken) throw publicError('ADMIN_TOKEN_NOT_CONFIGURED', 'Admin access is not configured.');
+
+  var providedToken = '';
+  if (body && body.adminToken) providedToken = String(body.adminToken || '').trim();
+  if (!providedToken && e && e.parameter && e.parameter.adminToken) providedToken = String(e.parameter.adminToken || '').trim();
+
+  if (!constantTimeEquals(providedToken, expectedToken)) {
+    throw publicError('UNAUTHORIZED', 'Admin access is not authorized.');
+  }
+}
+
+function constantTimeEquals(a, b) {
+  a = String(a || '');
+  b = String(b || '');
+  var maxLength = Math.max(a.length, b.length);
+  var result = a.length === b.length ? 0 : 1;
+  for (var i = 0; i < maxLength; i++) {
+    result |= (a.charCodeAt(i) || 0) ^ (b.charCodeAt(i) || 0);
+  }
+  return result === 0;
 }
 
 function getProducts() {

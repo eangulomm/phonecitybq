@@ -2,6 +2,7 @@ const root = document.querySelector('[data-admin]');
 
 if (root) {
   const apiUrl = root.dataset.apiUrl;
+  const adminToken = root.dataset.adminToken || '';
   const output = root.querySelector('[data-admin-output]');
   const productList = root.querySelector('[data-admin-products]');
   const preview = root.querySelector('[data-image-preview]');
@@ -288,13 +289,16 @@ if (root) {
   async function request(resource, body) {
     const response = await fetch(`${apiUrl}?resource=${encodeURIComponent(resource)}`, {
       method: 'POST',
-      body: JSON.stringify(body),
+      body: JSON.stringify({ ...body, adminToken }),
     });
     return parseResponse(response);
   }
 
   async function getResource(resource) {
-    const response = await fetch(`${apiUrl}?resource=${encodeURIComponent(resource)}`);
+    const url = new URL(apiUrl);
+    url.searchParams.set('resource', resource);
+    url.searchParams.set('adminToken', adminToken);
+    const response = await fetch(url.toString());
     return parseResponse(response);
   }
 
@@ -322,6 +326,7 @@ if (root) {
 
   function assertApiUrl() {
     if (!apiUrl) throw new Error('Falta PUBLIC_APPS_SCRIPT_API_URL en .env.');
+    if (!adminToken) throw new Error('Falta PUBLIC_ADMIN_TOKEN. Configura el token privado antes de usar el panel.');
   }
 
   async function parseResponse(response) {

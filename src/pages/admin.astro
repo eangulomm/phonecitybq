@@ -3,11 +3,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageIntro from '../components/shared/PageIntro.astro';
 
 const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
+const adminEnabled = import.meta.env.PUBLIC_ENABLE_ADMIN === 'true';
+const adminToken = import.meta.env.PUBLIC_ADMIN_TOKEN || '';
 ---
 
 <BaseLayout title="Administrador de productos" description="Panel para crear y editar productos de la tienda." robots="noindex,nofollow" showChat={false}>
   <section class="section">
-    <div class="container min-w-0" data-admin data-api-url={apiUrl}>
+    {!adminEnabled ? (
+      <div class="container">
+        <PageIntro
+          eyebrow="Acceso privado"
+          title="Panel no disponible"
+          description="Por seguridad, el panel de administración no se publica con la tienda. Para administrar productos, ejecútalo en un entorno privado autorizado."
+        />
+        <div class="surface mt-6 rounded-[var(--radius-lg)] p-6 text-sm leading-7 text-muted">
+          Si eres el dueño de la tienda, abre el proyecto en tu computador con las variables privadas configuradas.
+        </div>
+      </div>
+    ) : (
+    <div class="container min-w-0" data-admin data-api-url={apiUrl} data-admin-token={adminToken}>
       <PageIntro
         eyebrow="Gestion de tienda"
         title="Productos de la tienda"
@@ -191,8 +205,11 @@ const apiUrl = import.meta.env.PUBLIC_APPS_SCRIPT_API_URL || '';
         </div>
       </div>
     </div>
+    )}
   </section>
-  <script>
-    import '../scripts/admin.js';
-  </script>
+  {adminEnabled && (
+    <script>
+      import '../scripts/admin.js';
+    </script>
+  )}
 </BaseLayout>

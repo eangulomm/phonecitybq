@@ -10,6 +10,17 @@ $env:ASTRO_TELEMETRY_DISABLED='1'; npm.cmd run dev -- --host 127.0.0.1 --port 43
 $env:ASTRO_TELEMETRY_DISABLED='1'; npm.cmd run build
 ```
 
+## Seguridad del admin
+
+El panel `/admin` queda desactivado por defecto en builds publicos. Para usarlo en local necesitas:
+
+```powershell
+$env:PUBLIC_ENABLE_ADMIN='true'
+$env:PUBLIC_ADMIN_TOKEN='EL_TOKEN_PRIVADO_DE_APPS_SCRIPT'
+```
+
+Tambien debes configurar `ADMIN_TOKEN` en `Script properties` dentro de Apps Script. Lee [SECURITY.md](./SECURITY.md) antes de entregar o vender una tienda.
+
 ## Datos
 
 Los mocks viven en `src/data`. La capa preparada para API vive en `src/services`:
