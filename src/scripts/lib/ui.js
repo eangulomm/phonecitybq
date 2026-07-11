@@ -63,6 +63,71 @@ export function initCarousels() {
   });
 }
 
+export function initHeroCarousel() {
+  const carousel = document.querySelector('[data-hero-carousel]');
+  if (!carousel || carousel.dataset.heroReady === 'true') return;
+  carousel.dataset.heroReady = 'true';
+
+  const track = carousel.querySelector('[data-hero-track]');
+  const slides = [...carousel.querySelectorAll('.hero-slide')];
+  const dots = [...carousel.querySelectorAll('[data-hero-dot]')];
+  const prev = carousel.querySelector('[data-hero-prev]');
+  const next = carousel.querySelector('[data-hero-next]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let index = 0;
+  let timer;
+
+  const setSlide = (nextIndex) => {
+    if (!track || !slides.length) return;
+    index = (nextIndex + slides.length) % slides.length;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    slides.forEach((slide, slideIndex) => slide.setAttribute('aria-hidden', String(slideIndex !== index)));
+    dots.forEach((dot, dotIndex) => {
+      dot.classList.toggle('w-8', dotIndex === index);
+      dot.classList.toggle('w-2.5', dotIndex !== index);
+      dot.classList.toggle('bg-brand', dotIndex === index);
+      dot.classList.toggle('bg-line', dotIndex !== index);
+      dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false');
+    });
+  };
+
+  const stop = () => {
+    if (timer) window.clearInterval(timer);
+  };
+
+  const start = () => {
+    stop();
+    if (!reducedMotion && slides.length > 1) timer = window.setInterval(() => setSlide(index + 1), 6500);
+  };
+
+  prev?.addEventListener('click', () => {
+    setSlide(index - 1);
+    start();
+  });
+  next?.addEventListener('click', () => {
+    setSlide(index + 1);
+    start();
+  });
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      setSlide(Number(dot.dataset.heroDot || 0));
+      start();
+    });
+  });
+
+  carousel.addEventListener('mouseenter', stop);
+  carousel.addEventListener('mouseleave', start);
+  carousel.addEventListener('focusin', stop);
+  carousel.addEventListener('focusout', start);
+  carousel.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') setSlide(index - 1);
+    if (event.key === 'ArrowRight') setSlide(index + 1);
+  });
+
+  setSlide(0);
+  start();
+}
+
 export function initSearchSuggestions() {
   document.querySelectorAll('[data-search-suggest]').forEach((form) => {
     if (form.dataset.searchReady === 'true') return;

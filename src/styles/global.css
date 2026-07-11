@@ -143,6 +143,21 @@ textarea {
   border-radius: 999px;
 }
 
+.hero-carousel .hero-slide {
+  min-height: min(720px, calc(100vh - 7.5rem));
+}
+
+.hero-carousel .hero-track {
+  will-change: transform;
+}
+
+@media (max-width: 640px) {
+  .hero-carousel .hero-slide {
+    min-height: auto;
+    padding-bottom: 5.5rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

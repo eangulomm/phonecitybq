@@ -2,30 +2,107 @@
 import { sitePath } from '../../utils/format';
 
 const { config } = Astro.props;
+const heroSlides = [
+  {
+    eyebrow: 'Phone City BQ',
+    title: config.hero.title,
+    subtitle: config.hero.subtitle,
+    cta: config.hero.cta,
+    href: '/productos',
+    secondaryCta: config.hero.secondaryCta,
+    secondaryHref: `https://wa.me/${config.whatsapp}`,
+    image: config.hero.image,
+    imageAlt: 'iPhone premium en exhibición para compra directa',
+    stats: [
+      { value: 'Nuevos', label: 'sellados' },
+      { value: 'Seminuevos', label: 'revisados' },
+      { value: 'WhatsApp', label: 'asesoría' },
+    ],
+  },
+  {
+    eyebrow: 'Modelos nuevos',
+    title: 'Estrena iPhone con asesoría directa',
+    subtitle: 'Consulta disponibilidad real, precio y opciones de compra antes de decidir.',
+    cta: 'Ver iPhone nuevos',
+    href: '/#nuevos',
+    secondaryCta: 'Comprar por WhatsApp',
+    secondaryHref: `https://wa.me/${config.whatsapp}`,
+    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1400&q=85',
+    imageAlt: 'iPhone nuevo con acabado premium',
+    stats: [
+      { value: 'Sellados', label: 'listos' },
+      { value: 'Apple', label: 'original' },
+      { value: 'Entrega', label: 'coordinada' },
+    ],
+  },
+  {
+    eyebrow: 'Seminuevos revisados',
+    title: 'Compra un iPhone seminuevo con más confianza',
+    subtitle: 'Revisa fotos, condición, capacidad y disponibilidad con acompañamiento por WhatsApp.',
+    cta: 'Ver seminuevos',
+    href: '/#seminuevos',
+    secondaryCta: 'Hablar por WhatsApp',
+    secondaryHref: `https://wa.me/${config.whatsapp}`,
+    image: 'https://images.unsplash.com/photo-1695048065040-ffcd6f681a5a?auto=format&fit=crop&w=1400&q=85',
+    imageAlt: 'iPhone seminuevo revisado antes de la venta',
+    stats: [
+      { value: 'Revisados', label: 'con fotos' },
+      { value: 'Estado', label: 'claro' },
+      { value: 'Soporte', label: 'directo' },
+    ],
+  },
+];
 ---
 
-<section class="overflow-hidden bg-surface">
-  <div class="container grid min-h-[calc(100vh-5rem)] items-center gap-10 py-12 lg:grid-cols-[0.95fr_1.05fr]">
-    <div class="max-w-2xl">
-      <p class="eyebrow">Phone City BQ</p>
-      <h1 class="mt-5 text-[2.65rem] font-black leading-[1.04] sm:text-6xl lg:text-7xl">{config.hero.title}</h1>
-      <p class="mt-6 max-w-xl text-lg leading-8 text-muted">{config.hero.subtitle}</p>
-      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-        <a href={sitePath('/productos')} class="btn-primary">{config.hero.cta}</a>
-        <a href={`https://wa.me/${config.whatsapp}`} class="btn-secondary" target="_blank" rel="noreferrer">{config.hero.secondaryCta}</a>
+<section class="hero-carousel overflow-hidden bg-surface" data-hero-carousel aria-roledescription="carousel" aria-label="Promociones principales">
+  <div class="container relative min-h-[calc(100vh-5rem)] py-10 sm:py-12">
+    <div class="relative overflow-hidden rounded-[2rem] border border-line bg-paper shadow-lift">
+      <div class="hero-track flex transition-transform duration-700 ease-out" data-hero-track>
+        {heroSlides.map((slide, index) => (
+          <article class="hero-slide grid min-w-full items-center gap-8 p-6 sm:p-8 lg:grid-cols-[0.95fr_1.05fr] lg:p-10" aria-hidden={index === 0 ? 'false' : 'true'}>
+            <div class="max-w-2xl">
+              <p class="eyebrow">{slide.eyebrow}</p>
+              <h1 class="mt-5 text-[2.5rem] font-black leading-[1.04] sm:text-6xl lg:text-7xl">{slide.title}</h1>
+              <p class="mt-6 max-w-xl text-lg leading-8 text-muted">{slide.subtitle}</p>
+              <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href={sitePath(slide.href)} class="btn-primary">{slide.cta}</a>
+                <a href={slide.secondaryHref} class="btn-secondary" target={slide.secondaryHref.startsWith('http') ? '_blank' : undefined} rel={slide.secondaryHref.startsWith('http') ? 'noreferrer' : undefined}>
+                  {slide.secondaryCta}
+                </a>
+              </div>
+              <div class="mt-10 grid gap-4 text-sm sm:grid-cols-3">
+                {slide.stats.map((stat) => (
+                  <div>
+                    <strong class="block text-2xl">{stat.value}</strong>
+                    <span class="text-muted">{stat.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div class="relative min-h-[330px] sm:min-h-[440px]">
+              <img class="absolute inset-0 h-full w-full rounded-[1.5rem] object-cover shadow-lift" src={slide.image} alt={slide.imageAlt} fetchpriority={index === 0 ? 'high' : undefined} loading={index === 0 ? undefined : 'lazy'} />
+              <div class="absolute inset-0 rounded-[1.5rem] bg-gradient-to-t from-black/55 via-black/10 to-transparent"></div>
+              <div class="absolute bottom-5 left-5 max-w-[280px] rounded-2xl border border-white/20 bg-white/90 p-4 shadow-soft backdrop-blur">
+                <p class="text-xs font-black uppercase tracking-wide text-brand">Asesoría directa</p>
+                <p class="mt-1 text-sm text-muted">Elige modelo, capacidad y condición con ayuda por WhatsApp.</p>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
-      <div class="mt-10 grid gap-4 text-sm sm:grid-cols-3">
-        <div><strong class="block text-2xl">Nuevos</strong><span class="text-muted">sellados</span></div>
-        <div><strong class="block text-2xl">Seminuevos</strong><span class="text-muted">revisados</span></div>
-        <div><strong class="block text-2xl">WhatsApp</strong><span class="text-muted">asesoría</span></div>
-      </div>
-    </div>
-    <div class="relative">
-      <div class="absolute inset-6 rounded-[2rem] bg-brand/25 blur-3xl"></div>
-      <img class="relative aspect-[4/3] w-full rounded-[2rem] object-cover shadow-lift" src={config.hero.image} alt="Dispositivos tecnológicos premium en una tienda moderna" fetchpriority="high" />
-      <div class="surface absolute bottom-5 left-5 max-w-[260px] rounded-2xl p-4">
-        <p class="text-xs font-black uppercase tracking-wide text-brand">Asesoría directa</p>
-        <p class="mt-1 text-sm text-muted">Elige modelo, capacidad y condición con ayuda por WhatsApp.</p>
+
+      <div class="absolute bottom-5 right-5 flex items-center gap-2 rounded-full border border-line bg-white/90 p-2 shadow-soft backdrop-blur">
+        <button class="grid h-10 w-10 place-items-center rounded-full border border-line text-ink transition hover:border-brand hover:text-brand" type="button" data-hero-prev aria-label="Slide anterior">
+          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <div class="flex items-center gap-2 px-1" data-hero-dots>
+          {heroSlides.map((_, index) => (
+            <button class={`h-2.5 rounded-full transition-all ${index === 0 ? 'w-8 bg-brand' : 'w-2.5 bg-line'}`} type="button" data-hero-dot={index} aria-label={`Ir al slide ${index + 1}`} aria-current={index === 0 ? 'true' : 'false'}></button>
+          ))}
+        </div>
+        <button class="grid h-10 w-10 place-items-center rounded-full border border-line text-ink transition hover:border-brand hover:text-brand" type="button" data-hero-next aria-label="Siguiente slide">
+          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
   </div>
